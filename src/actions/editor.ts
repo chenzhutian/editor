@@ -1,6 +1,8 @@
 import { Config } from 'vega-themes/build/config';
 import { Mode, Renderer, View } from '../constants';
 
+export const AUTHENTICATE: 'AUTHENTICATE' = 'AUTHENTICATE';
+export const RECEIVE_CURRENT_USER: 'RECEIVE_CURRENT_USER' = 'RECEIVE_CURRENT_USER';
 export const EXPORT_VEGA: 'EXPORT_VEGA' = 'EXPORT_VEGA';
 export const LOG_ERROR: 'LOG_ERROR' = 'LOG_ERROR';
 export const PARSE_SPEC: 'PARSE_SPEC' = 'PARSE_SPEC';
@@ -31,6 +33,8 @@ export const SET_SIDEPANE_ITEM: 'SET_SIDEPANE_ITEM' = 'SET_SIDEPANE_ITEM';
 export const SET_CONFIG_EDITOR_STRING: 'SET_CONFIG_EDITOR_STRING' = 'SET_CONFIG_EDITOR_STRING';
 
 export type Action =
+  | ReceiveCurrentUser
+  | IsLoggedIn
   | SetMode
   | SetModeOnly
   | SetScrollPosition
@@ -291,3 +295,21 @@ export function setEditorReference(editorRef: any) {
 }
 
 export type SetEditorReference = ReturnType<typeof setEditorReference>;
+
+export function isLoggedIn(value: boolean) {
+  return {
+    isAuthenticated: value,
+    type: AUTHENTICATE,
+  };
+}
+
+export type IsLoggedIn = ReturnType<typeof isLoggedIn>;
+
+export function receiveCurrentUser(user: any) {
+  return {
+    type: RECEIVE_CURRENT_USER,
+    user,
+  };
+}
+
+export type ReceiveCurrentUser = ReturnType<typeof receiveCurrentUser>;
