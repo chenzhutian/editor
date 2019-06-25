@@ -25,7 +25,7 @@ export interface State {
   navItem: string;
   sidePaneItem: string;
   parse: boolean;
-  profileUrl: string;
+  profilePicUrl: string;
   renderer: Renderer;
   selectedExample: string;
   vegaLiteSpec: VlSpec;
@@ -56,7 +56,7 @@ export const DEFAULT_STATE: State = {
   mode: Mode.VegaLite,
   navItem: NAVBAR.Logs,
   parse: false,
-  profileUrl: '',
+  profilePicUrl: '',
   renderer: 'canvas',
   selectedExample: null,
   sidePaneItem: SIDEPANE.CompiledVega,
