@@ -305,10 +305,10 @@ export function isLoggedIn(value: boolean) {
 
 export type IsLoggedIn = ReturnType<typeof isLoggedIn>;
 
-export function receiveCurrentUser(user: any) {
+export function receiveCurrentUser(profileUrl: string) {
   return {
+    profileUrl,
     type: RECEIVE_CURRENT_USER,
-    user,
   };
 }
 
