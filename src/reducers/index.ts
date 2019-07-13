@@ -29,6 +29,7 @@ import {
   TOGGLE_DEBUG_PANE,
   TOGGLE_NAV_BAR,
   UPDATE_EDITOR_STRING,
+  UPDATE_VEGA_AR_SPEC,
   UPDATE_VEGA_LITE_SPEC,
   UPDATE_VEGA_SPEC,
   UpdateVegaLiteSpec,
@@ -186,6 +187,9 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
       });
     }
     case UPDATE_VEGA_SPEC: {
+      return parseVega(state, action);
+    }
+    case UPDATE_VEGA_AR_SPEC: {
       return parseVega(state, action);
     }
     case SET_GIST_VEGA_SPEC: {

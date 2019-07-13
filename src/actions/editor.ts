@@ -25,6 +25,7 @@ export const TOGGLE_NAV_BAR: 'TOGGLE_NAV_BAR' = 'TOGGLE_NAV_BAR';
 export const UPDATE_EDITOR_STRING: 'UPDATE_EDITOR_STRING' = 'UPDATE_EDITOR_STRING';
 export const UPDATE_VEGA_LITE_SPEC: 'UPDATE_VEGA_LITE_SPEC' = 'UPDATE_VEGA_LITE_SPEC';
 export const UPDATE_VEGA_SPEC: 'UPDATE_VEGA_SPEC' = 'UPDATE_VEGA_SPEC';
+export const UPDATE_VEGA_AR_SPEC: 'UPDATE_VEGA_AR_SPEC' = 'UPDATE_VEGA_AR_SPEC';
 export const SET_CONFIG: 'SET_CONFIG' = 'SET_CONFIG';
 export const SET_THEME_NAME: 'SET_THEME_NAME' = 'SET_THEME_NAME';
 export const SET_SIDEPANE_ITEM: 'SET_SIDEPANE_ITEM' = 'SET_SIDEPANE_ITEM';
@@ -38,6 +39,7 @@ export type Action =
   | SetVegaExample
   | SetVegaLiteExample
   | UpdateVegaSpec
+  | UpdateVegaARSpec
   | UpdateVegaLiteSpec
   | SetGistVegaSpec
   | SetGistVegaLiteSpec
@@ -117,6 +119,14 @@ export function updateVegaSpec(spec) {
   };
 }
 export type UpdateVegaSpec = ReturnType<typeof updateVegaSpec>;
+
+export function updateVegaARSpec(spec) {
+  return {
+    spec,
+    type: UPDATE_VEGA_AR_SPEC,
+  };
+}
+export type UpdateVegaARSpec = ReturnType<typeof updateVegaARSpec>;
 
 export function updateVegaLiteSpec(spec) {
   return {

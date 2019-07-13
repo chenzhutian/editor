@@ -5,7 +5,6 @@ import * as React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import { withRouter } from 'react-router-dom';
 import { debounce } from 'vega';
-import parser from 'vega-schema-url-parser';
 import { mapDispatchToProps, mapStateToProps } from '.';
 import { KEYCODES, Mode } from '../../../constants';
 import addMarkdownProps from '../../../utils/markdownProps';
@@ -16,6 +15,12 @@ const vegaSchema = require('vega/build/vega-schema.json');
 
 addMarkdownProps(vegaSchema);
 addMarkdownProps(vegaLiteSchema);
+
+function parser(url: string) {
+  const regex = /\/schema\/([\w-]+)\/([\w\.\-]+)\.json$/g;
+  const [library, version] = regex.exec(url)!.slice(1, 3);
+  return { library: library as 'vega' | 'vega-lite' | 'vega-ar', version };
+}
 
 const schemas = {
   [Mode.Vega]: [
@@ -142,7 +147,6 @@ class Editor extends React.PureComponent<Props, {}> {
 
     try {
       const schema = JSON.parse(spec).$schema;
-
       if (schema) {
         switch (parser(schema).library) {
           case 'vega-lite':
@@ -151,18 +155,23 @@ class Editor extends React.PureComponent<Props, {}> {
           case 'vega':
             parsedMode = Mode.Vega;
             break;
+          case 'vega-ar':
+            parsedMode = Mode.VegaAR;
+            break;
         }
       }
     } catch (err) {
       console.warn('Error parsing JSON string', err);
     }
-
     switch (parsedMode) {
       case Mode.Vega:
         this.props.updateVegaSpec(spec);
         break;
       case Mode.VegaLite:
         this.props.updateVegaLiteSpec(spec);
+        break;
+      case Mode.VegaAR:
+        this.props.updateVegaARSpec(spec);
         break;
       default:
         console.exception(`Unknown mode:  ${parsedMode}`);

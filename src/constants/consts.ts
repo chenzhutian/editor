@@ -3,18 +3,21 @@ import * as vega from 'vega';
 export namespace Mode {
   export const Vega: 'vega' = 'vega';
   export const VegaLite: 'vega-lite' = 'vega-lite';
+  export const VegaAR: 'vega-ar' = 'vega-ar';
 }
 
-export type Mode = typeof Mode.Vega | typeof Mode.VegaLite;
+export type Mode = typeof Mode.Vega | typeof Mode.VegaLite | typeof Mode.VegaAR;
 
 export const NAME_TO_MODE = {
   vega: Mode.Vega,
+  'vega-ar': Mode.VegaAR,
   'vega-lite': Mode.VegaLite,
 };
 
 export const NAMES = {
   [Mode.Vega]: 'Vega',
   [Mode.VegaLite]: 'Vega-Lite',
+  [Mode.VegaAR]: 'Vega-AR',
 };
 
 export const LAYOUT = {
