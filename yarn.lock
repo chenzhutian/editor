@@ -5988,6 +5988,12 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+"vega-ar@git+ssh://git@github.com:chenzhutian/vega-ar.git#453c4900263de18716adc60478f5d197d36a5b19":
+  version "0.0.1"
+  resolved "git+ssh://git@github.com:chenzhutian/vega-ar.git#453c4900263de18716adc60478f5d197d36a5b19"
+  dependencies:
+    vega "^5.4.0"
+
 vega-canvas@^1.2.0, vega-canvas@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/vega-canvas/-/vega-canvas-1.2.1.tgz#ee0586e2a1f096f6a5d1710df61ef501562c2bd4"
@@ -6281,7 +6287,7 @@ vega-wordcloud@^4.0.2:
     vega-statistics "^1.2.5"
     vega-util "^1.8.0"
 
-vega@5.4.0:
+vega@5.4.0, vega@^5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/vega/-/vega-5.4.0.tgz#62fb18de7cb3477a3914aa2f7b98197958c0fd2e"
   integrity sha512-1c77yse5ZOYXgVig5RjJCWwM8yHvY1Ds7ncusiT1Hu3wXVhOw8TKe2CLCbcOpWSmPRJ48BRw/6qF70iS4zWYAQ==

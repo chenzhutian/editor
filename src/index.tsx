@@ -4,6 +4,7 @@ import * as ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 import * as vega from 'vega';
+import * as vegaAR from 'vega-ar';
 import * as vl from 'vega-lite';
 
 import AppShell from './components/app-shell';
@@ -15,6 +16,7 @@ declare global {
       vega?: typeof vega;
       view?: vega.View;
       vl?: typeof vl;
+      vegaAR?: typeof vegaAR;
       VEGA_VERSION?: string;
       VEGA_LITE_VERSION?: string;
     };
@@ -25,6 +27,7 @@ window.VEGA_DEBUG = window.VEGA_DEBUG || {};
 window.VEGA_DEBUG = {};
 window.VEGA_DEBUG.vega = vega;
 window.VEGA_DEBUG.vl = vl;
+window.VEGA_DEBUG.vegaAR = vegaAR;
 window.VEGA_DEBUG.VEGA_VERSION = vega.version;
 window.VEGA_DEBUG.VEGA_LITE_VERSION = vl.version;
 

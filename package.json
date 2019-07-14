@@ -58,7 +58,8 @@
     "vega-lite": "3.3.0",
     "vega-schema-url-parser": "^1.1.0",
     "vega-themes": "^2.3.0",
-    "vega-tooltip": "^0.17.1"
+    "vega-tooltip": "^0.17.1",
+    "vega-ar": "git+ssh://git@github.com:chenzhutian/vega-ar.git#453c4900263de18716adc60478f5d197d36a5b19"
   },
   "husky": {
     "hooks": {

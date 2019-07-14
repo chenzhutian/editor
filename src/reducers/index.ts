@@ -39,7 +39,7 @@ import {
 import { DEFAULT_STATE, Mode } from '../constants';
 import { State } from '../constants/default-state';
 import { LocalLogger } from '../utils/logger';
-import { validateVega, validateVegaLite } from '../utils/validate';
+import { validateVega, validateVegaAR, validateVegaLite } from '../utils/validate';
 import { SET_SIDEPANE_ITEM, SET_THEME_NAME } from './../actions/editor';
 
 function errorLine(code: string, error: string) {
@@ -109,11 +109,12 @@ function parseVegaAR(state: State, action: UpdateVegaARSpec, extend = {}) {
   try {
     const spec = JSON.parse(action.spec);
 
-    validateVega(spec, currLogger);
+    validateVegaAR(spec, currLogger);
 
     extend = {
       ...extend,
-      vegaSpec: spec,
+      vegaARSpec: spec,
+      // vegaSpec: spec,
     };
   } catch (e) {
     const errorMessage = errorLine(action.spec, e.message);
@@ -125,13 +126,14 @@ function parseVegaAR(state: State, action: UpdateVegaARSpec, extend = {}) {
     };
   }
   const logger = { ...currLogger };
+
   return {
     ...state,
 
     editorString: action.spec,
     error: null,
     gist: null,
-    mode: Mode.Vega,
+    mode: Mode.VegaAR,
     selectedExample: null,
     warningsCount: (logger as any).warns.length,
     warningsLogger: currLogger,

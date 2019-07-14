@@ -4,10 +4,11 @@ import { Portal } from 'react-portal';
 import { withRouter } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import * as vega from 'vega';
+import { arParse, arView } from 'vega-ar'
 import { deepEqual } from 'vega-lite/build/src/util';
 import vegaTooltip from 'vega-tooltip';
 import { mapDispatchToProps, mapStateToProps } from '.';
-import { KEYCODES } from '../../constants';
+import { KEYCODES, Mode } from '../../constants';
 import addProjections from '../../utils/addProjections';
 import './index.css';
 
@@ -56,9 +57,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   // Initialize the view instance
-  public initView() {
-    const runtime = vega.parse(this.props.vegaSpec, this.props.config);
-
+  public async initView() {
     const loader = vega.loader();
     const originalLoad = loader.load.bind(loader);
 
@@ -74,15 +73,34 @@ class Editor extends React.PureComponent<Props, State> {
       }
     };
 
+    let runtime
+    let arRuntime
+    if (this.props.mode === Mode.VegaAR) {
+      const tmp = arParse(this.props.vegaARSpec, this.props.config);
+      runtime = tmp.runtime;
+      arRuntime = tmp.arRuntime;
+    } else {
+      runtime = vega.parse(this.props.vegaSpec, this.props.config);
+    }
+
     // finalize previous view so that memory can be freed
     if (this.props.view) {
       this.props.view.finalize();
     }
 
-    const view = new vega.View(runtime, {
-      loader,
-      logLevel: vega.Warn,
-    }).hover();
+    let view
+    if (this.props.mode === Mode.VegaAR) {
+      view = (await arView(arRuntime, runtime, {
+        arMode: 'debug',
+        loader,
+        logLevel: vega.Warn,
+      })).hover()
+    } else {
+      view = new vega.View(runtime, {
+        loader,
+        logLevel: vega.Warn,
+      }).hover();
+    }
 
     (window as any).VEGA_DEBUG.view = this.props.view;
 
@@ -134,6 +152,7 @@ class Editor extends React.PureComponent<Props, State> {
   public componentDidUpdate(prevProps, prevState) {
     if (
       !deepEqual(prevProps.vegaSpec, this.props.vegaSpec) ||
+      !deepEqual(prevProps.vegaARSpec, this.props.vegaARSpec) ||
       !deepEqual(prevProps.vegaLiteSpec, this.props.vegaLiteSpec) ||
       prevProps.baseURL !== this.props.baseURL ||
       !deepEqual(prevProps.config, this.props.config)

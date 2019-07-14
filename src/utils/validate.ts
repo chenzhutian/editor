@@ -11,7 +11,7 @@ ajv.addFormat('color-hex', () => true);
 
 const vegaValidator = ajv.compile(require('vega/build/vega-schema.json'));
 const vegaLiteValidator = ajv.compile(require('vega-lite/build/vega-lite-schema.json'));
-const vegaARValidator = ajv.compile(require());
+const vegaARValidator = ajv.compile(require('vega-ar/build/vega-ar-schema.json'));
 
 export function validateVegaLite(spec, logger) {
   const valid = vegaLiteValidator(spec);

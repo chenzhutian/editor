@@ -11,6 +11,7 @@ export function mapStateToProps(state: State, ownProps) {
     lastPosition: state.lastPosition,
     manualParse: state.manualParse,
     mode: state.mode,
+    vegaARSpec: state.vegaARSpec,
     vegaLiteSpec: state.vegaLiteSpec,
     vegaSpec: state.vegaSpec,
     view: state.view,
@@ -25,6 +26,7 @@ export function mapDispatchToProps(dispatch: Dispatch<EditorActions.Action>) {
       setConfig: EditorActions.setConfig,
       setScrollPosition: EditorActions.setScrollPosition,
       toggleAutoParse: EditorActions.toggleAutoParse,
+      updateVegaARSpec: EditorActions.updateVegaARSpec,
       updateVegaSpec: EditorActions.updateVegaSpec,
     },
     dispatch

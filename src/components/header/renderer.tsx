@@ -55,7 +55,17 @@ class Header extends React.PureComponent<Props, State> {
   }
 
   public onSwitchMode(option) {
-    option.value === Mode.Vega ? this.props.updateVegaSpec(stringify(this.props.vegaSpec)) : this.onSelectNewVegaLite();
+    switch (option.value) {
+      case Mode.Vega:
+        this.props.updateVegaSpec(stringify(this.props.vegaSpec))
+        break;
+      case Mode.VegaLite:
+        this.onSelectNewVegaLite();
+        break;
+      case Mode.VegaAR:
+        this.props.updateVegaARSpec(stringify(this.props.vegaARSpec))
+        break
+    }
   }
 
   public componentWillReceiveProps(nextProps) {
@@ -91,10 +101,27 @@ class Header extends React.PureComponent<Props, State> {
     this.listnerAttached = false;
   }
   public render() {
-    const modeOptions =
-      this.props.mode === Mode.Vega
-        ? [{ value: Mode.VegaLite, label: NAMES[Mode.VegaLite] }]
-        : [{ value: Mode.Vega, label: NAMES[Mode.Vega] }];
+    let modeOptions
+    switch (this.props.mode) {
+      case Mode.VegaLite:
+        modeOptions = [
+          { value: Mode.Vega, label: NAMES[Mode.Vega] },
+          { value: Mode.VegaAR, label: NAMES[Mode.VegaAR] },
+        ];
+        break
+      case Mode.VegaAR:
+        modeOptions = [
+          { value: Mode.Vega, label: NAMES[Mode.Vega] },
+          { value: Mode.VegaLite, label: NAMES[Mode.VegaLite] },
+        ];
+        break;
+      default:
+        modeOptions = [
+          { value: Mode.VegaLite, label: NAMES[Mode.VegaLite] },
+          { value: Mode.VegaAR, label: NAMES[Mode.VegaAR] },
+        ];
+        break;
+    }
 
     const modeSwitcher = (
       <Select

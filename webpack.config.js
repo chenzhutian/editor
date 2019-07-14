@@ -35,6 +35,12 @@ module.exports = (env, argv) => {
             priority: 20,
             reuseExistingChunk: true
           },
+          vegaAR: {
+            test: /vega-ar/,
+            name: "vega-ar",
+            priority: 5,
+            reuseExistingChunk: true,
+          },
           vendors: {
             test: /[\\/]node_modules[\\/]/,
             priority: -10,
@@ -97,6 +103,7 @@ module.exports = (env, argv) => {
 
     devServer: {
       host: "0.0.0.0",
+      port: "31333",
       stats: {
         colors: true
       },

@@ -1,7 +1,9 @@
 .chart {
   background: white;
   padding: 10px;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .chart .vega-bindings {

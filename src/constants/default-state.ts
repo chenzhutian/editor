@@ -1,4 +1,5 @@
 import { Spec } from 'vega';
+import { ARSpec } from 'vega-ar';
 import { TopLevelSpec as VlSpec } from 'vega-lite';
 import { Config } from 'vega-themes/build/config';
 import { LocalLogger } from '../utils/logger';
@@ -28,6 +29,7 @@ export interface State {
   selectedExample: string;
   vegaLiteSpec: VlSpec;
   vegaSpec: Spec;
+  vegaARSpec: ARSpec;
   view: View;
   warningsCount: number;
   warningsLogger: LocalLogger;
@@ -53,10 +55,11 @@ export const DEFAULT_STATE: State = {
   mode: Mode.VegaLite,
   navItem: NAVBAR.Logs,
   parse: false,
-  renderer: 'canvas',
+  renderer: 'svg',
   selectedExample: null,
   sidePaneItem: SIDEPANE.CompiledVega,
   themeName: 'custom',
+  vegaARSpec: { ar: { mode: 'ON', data: [] } },
   vegaLiteSpec: null,
   vegaSpec: {},
   view: null,
