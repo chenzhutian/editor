@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { mapDispatchToProps, mapStateToProps } from '.';
 import { KEYCODES, Mode } from '../../constants';
 import { NAMES } from '../../constants/consts';
-import { VEGA_LITE_SPECS, VEGA_SPECS } from '../../constants/specs';
+import { VEGA_AR_SPECS, VEGA_LITE_SPECS, VEGA_SPECS } from '../../constants/specs';
 import ExportModal from './export-modal/index';
 import GistModal from './gist-modal/index';
 import HelpModal from './help-modal/index';
@@ -19,7 +19,8 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & { history: any; showExample: boolean };
 
 interface State {
-  showVega: boolean;
+  // showVega: boolean;
+  mode: Mode;
   scrollPosition: number;
 }
 
@@ -37,13 +38,18 @@ class Header extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
+      mode: props.mode,
       scrollPosition: 0,
-      showVega: props.mode === Mode.Vega,
+      // showVega: props.mode === Mode.Vega,
     };
   }
 
   public onSelectVega(name) {
     this.props.history.push(`/examples/vega/${name}`);
+  }
+
+  public onSelectVegaAR(name) {
+    this.props.history.push(`/examples/vega-ar/${name}`);
   }
 
   public onSelectVegaLite(name) {
@@ -70,7 +76,8 @@ class Header extends React.PureComponent<Props, State> {
 
   public componentWillReceiveProps(nextProps) {
     this.setState({
-      showVega: nextProps.mode === Mode.Vega,
+      mode: nextProps.mode,
+      // showVega: nextProps.mode === Mode.Vega,
     });
   }
 
@@ -238,6 +245,36 @@ class Header extends React.PureComponent<Props, State> {
       </div>
     );
 
+    const vegaAR = closePortal => (
+      <div className="vega">
+        {Object.keys(VEGA_AR_SPECS).map((specType, i) => {
+          const specs = VEGA_AR_SPECS[specType];
+          return (
+            <div className="itemGroup" key={i}>
+              <div className="specType">{specType}</div>
+              <div className="items" onClick={closePortal}>
+                {specs.map((spec, j) => {
+                  return (
+                    <div
+                      key={j}
+                      onClick={() => {
+                        this.onSelectVegaAR(spec.name);
+                        closePortal();
+                      }}
+                      className="item"
+                    >
+                      <div style={{ backgroundImage: `url(images/examples/vg/${spec.name}.vg.png)` }} className="img" />
+                      <div className="name">{formatExampleName(spec.name)}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+
     const vegalite = closePortal => (
       <div className="vega-Lite">
         {Object.keys(VEGA_LITE_SPECS).map((specGroup, i) => {
@@ -277,6 +314,18 @@ class Header extends React.PureComponent<Props, State> {
         })}
       </div>
     );
+
+    const chooseExamples = (closePortal: any) => {
+      switch (this.state.mode) {
+        case Mode.Vega:
+          return vega(closePortal)
+        case Mode.VegaLite:
+          return vegalite(closePortal)
+        case Mode.VegaAR:
+          return vegaAR(closePortal)
+
+      }
+    }
 
     const gist = closePortal => <GistModal closePortal={() => closePortal()} />;
     const exportContent = <ExportModal />;
@@ -382,9 +431,9 @@ class Header extends React.PureComponent<Props, State> {
                     <div className="modal-header">
                       <div className="button-groups">
                         <button
-                          className={this.state.showVega ? 'selected' : ''}
+                          className={this.state.mode === Mode.Vega ? 'selected' : ''}
                           onClick={() => {
-                            this.setState({ showVega: true });
+                            this.setState({ mode: Mode.Vega });
                             const node = ReactDOM.findDOMNode(this.examplePortal.current);
                             node.scrollTop = 0;
                           }}
@@ -392,9 +441,19 @@ class Header extends React.PureComponent<Props, State> {
                           Vega
                         </button>
                         <button
-                          className={this.state.showVega ? '' : 'selected'}
+                          className={this.state.mode === Mode.VegaAR ? 'selected' : ''}
                           onClick={() => {
-                            this.setState({ showVega: false });
+                            this.setState({ mode: Mode.VegaAR });
+                            const node = ReactDOM.findDOMNode(this.examplePortal.current);
+                            node.scrollTop = 0;
+                          }}
+                        >
+                          Vega-AR
+                        </button>
+                        <button
+                          className={this.state.mode === Mode.VegaLite ? 'selected' : ''}
+                          onClick={() => {
+                            this.setState({ mode: Mode.VegaLite });
                             const node = ReactDOM.findDOMNode(this.examplePortal.current);
                             node.scrollTop = 0;
                           }}
@@ -407,7 +466,8 @@ class Header extends React.PureComponent<Props, State> {
                       </button>
                     </div>
                     <div className="modal-body" ref={this.examplePortal}>
-                      {this.state.showVega ? vega(closePortal) : vegalite(closePortal)}
+                      {/* {this.state.showVega ? vega(closePortal) : vegalite(closePortal)} */}
+                      {chooseExamples(closePortal)}
                     </div>
                     <div className="modal-footer" />
                   </div>

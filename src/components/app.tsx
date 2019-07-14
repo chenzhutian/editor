@@ -107,6 +107,11 @@ class App extends React.PureComponent<Props & { match: any; location: any; showE
           this.props.setVegaLiteExample(name, spec);
         });
         break;
+      case 'vega-ar':
+        text(`./spec/vega-ar/${name}.va.json`, spec => {
+          this.props.setVegaARExample(name, spec);
+        });
+        break;
       default:
         console.warn(`Unknown mode ${parameter.mode}`);
         break;
@@ -163,6 +168,7 @@ function mapDispatchToProps(dispatch: Dispatch<EditorActions.Action>) {
       setGistVegaSpec: EditorActions.setGistVegaSpec,
       setModeOnly: EditorActions.setModeOnly,
       setRenderer: EditorActions.setRenderer,
+      setVegaARExample: EditorActions.setVegaARExample,
       setVegaExample: EditorActions.setVegaExample,
       setVegaLiteExample: EditorActions.setVegaLiteExample,
       updateVegaLiteSpec: EditorActions.updateVegaLiteSpec,

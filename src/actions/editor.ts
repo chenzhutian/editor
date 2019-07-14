@@ -15,6 +15,7 @@ export const SET_MODE_ONLY: 'SET_MODE_ONLY' = 'SET_MODE_ONLY';
 export const SET_SCROLL_POSITION: 'SET_SCROLL_POSITION' = 'SET_SCROLL_POSITION';
 export const SET_RENDERER: 'SET_RENDERER' = 'SET_RENDERER';
 export const SET_VEGA_EXAMPLE: 'SET_VEGA_EXAMPLE' = 'SET_VEGA_EXAMPLE';
+export const SET_VEGA_AR_EXAMPLE: 'SET_VEGA_AR_EXAMPLE' = 'SET_VEGA_AR_EXAMPLE';
 export const SET_VEGA_LITE_EXAMPLE: 'SET_VEGA_LITE_EXAMPLE' = 'SET_VEGA_LITE_EXAMPLE';
 export const SET_VIEW: 'SET_VIEW' = 'SET_VIEW';
 export const SHOW_LOGS: 'SHOW_LOGS' = 'SHOW_LOGS';
@@ -37,6 +38,7 @@ export type Action =
   | SetScrollPosition
   | ParseSpec
   | SetVegaExample
+  | SetVegaARExample
   | SetVegaLiteExample
   | UpdateVegaSpec
   | UpdateVegaARSpec
@@ -93,6 +95,16 @@ export function parseSpec(value: boolean) {
   };
 }
 export type ParseSpec = ReturnType<typeof parseSpec>;
+
+export function setVegaARExample(example: string, spec) {
+  return {
+    example,
+    spec,
+    type: SET_VEGA_AR_EXAMPLE,
+  };
+}
+export type SetVegaARExample = ReturnType<typeof setVegaARExample>;
+
 
 export function setVegaExample(example: string, spec) {
   return {

@@ -16,11 +16,13 @@ import {
   SET_MODE_ONLY,
   SET_RENDERER,
   SET_SCROLL_POSITION,
+  SET_VEGA_AR_EXAMPLE,
   SET_VEGA_EXAMPLE,
   SET_VEGA_LITE_EXAMPLE,
   SET_VIEW,
   SetGistVegaLiteSpec,
   SetGistVegaSpec,
+  SetVegaARExample,
   SetVegaExample,
   SetVegaLiteExample,
   SHOW_LOGS,
@@ -103,7 +105,7 @@ function parseVega(state: State, action: SetVegaExample | UpdateVegaSpec | SetGi
   };
 }
 
-function parseVegaAR(state: State, action: UpdateVegaARSpec, extend = {}) {
+function parseVegaAR(state: State, action: UpdateVegaARSpec | SetVegaARExample, extend = {}) {
   const currLogger = new LocalLogger();
 
   try {
@@ -222,6 +224,11 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
         ...state,
         parse: action.parse,
       };
+    case SET_VEGA_AR_EXAMPLE: {
+      return parseVegaAR(state, action, {
+        selectedExample: action.example,
+      })
+    }
     case SET_VEGA_EXAMPLE: {
       return parseVega(state, action, {
         selectedExample: action.example,
