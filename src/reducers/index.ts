@@ -32,6 +32,7 @@ import {
   UPDATE_VEGA_AR_SPEC,
   UPDATE_VEGA_LITE_SPEC,
   UPDATE_VEGA_SPEC,
+  UpdateVegaARSpec,
   UpdateVegaLiteSpec,
   UpdateVegaSpec,
 } from '../actions/editor';
@@ -65,6 +66,44 @@ function errorLine(code: string, error: string) {
 }
 
 function parseVega(state: State, action: SetVegaExample | UpdateVegaSpec | SetGistVegaSpec, extend = {}) {
+  const currLogger = new LocalLogger();
+
+  try {
+    const spec = JSON.parse(action.spec);
+
+    validateVega(spec, currLogger);
+
+    extend = {
+      ...extend,
+      vegaSpec: spec,
+    };
+  } catch (e) {
+    const errorMessage = errorLine(action.spec, e.message);
+    console.warn(e);
+
+    extend = {
+      ...extend,
+      error: errorMessage,
+    };
+  }
+  const logger = { ...currLogger };
+  return {
+    ...state,
+
+    editorString: action.spec,
+    error: null,
+    gist: null,
+    mode: Mode.Vega,
+    selectedExample: null,
+    warningsCount: (logger as any).warns.length,
+    warningsLogger: currLogger,
+
+    // extend with other changes
+    ...extend,
+  };
+}
+
+function parseVegaAR(state: State, action: UpdateVegaARSpec, extend = {}) {
   const currLogger = new LocalLogger();
 
   try {
@@ -190,7 +229,7 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
       return parseVega(state, action);
     }
     case UPDATE_VEGA_AR_SPEC: {
-      return parseVega(state, action);
+      return parseVegaAR(state, action);
     }
     case SET_GIST_VEGA_SPEC: {
       return parseVega(state, action, {

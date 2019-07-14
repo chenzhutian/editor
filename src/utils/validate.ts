@@ -11,6 +11,7 @@ ajv.addFormat('color-hex', () => true);
 
 const vegaValidator = ajv.compile(require('vega/build/vega-schema.json'));
 const vegaLiteValidator = ajv.compile(require('vega-lite/build/vega-lite-schema.json'));
+const vegaARValidator = ajv.compile(require());
 
 export function validateVegaLite(spec, logger) {
   const valid = vegaLiteValidator(spec);
@@ -25,6 +26,15 @@ export function validateVega(spec, logger) {
   const valid = vegaValidator(spec);
   if (!valid) {
     for (const error of vegaValidator.errors) {
+      logger.warn(`Validation: ${error.dataPath} ${error.message}`);
+    }
+  }
+}
+
+export function validateVegaAR(spec, logger) {
+  const valid = vegaARValidator(spec);
+  if (!valid) {
+    for (const error of vegaARValidator.errors) {
       logger.warn(`Validation: ${error.dataPath} ${error.message}`);
     }
   }
