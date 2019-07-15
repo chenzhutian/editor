@@ -80,7 +80,9 @@ class Editor extends React.PureComponent<Props, State> {
       runtime = tmp.runtime;
       arRuntime = tmp.arRuntime;
     } else {
-      runtime = vega.parse(this.props.vegaSpec, this.props.config);
+      const tmp = arParse(this.props.vegaSpec, this.props.config);
+      runtime = tmp.runtime;
+      arRuntime = tmp.arRuntime;
     }
 
     // finalize previous view so that memory can be freed
@@ -96,10 +98,11 @@ class Editor extends React.PureComponent<Props, State> {
         logLevel: vega.Warn,
       })).hover()
     } else {
-      view = new vega.View(runtime, {
+      view = (await arView(arRuntime, runtime, {
+        arMode: 'normal',
         loader,
         logLevel: vega.Warn,
-      }).hover();
+      })).hover()
     }
 
     (window as any).VEGA_DEBUG.view = this.props.view;
