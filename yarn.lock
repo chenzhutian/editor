@@ -5988,9 +5988,9 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-"vega-ar@git+ssh://git@github.com:chenzhutian/vega-ar.git#21911ba9f1d1b7a5d4e7a65de30aa7f801600e8a":
+"vega-ar@git+ssh://git@github.com:chenzhutian/vega-ar.git#6ca3f547bd661156cb350cb7cccd0bbf987374d3":
   version "0.0.1"
-  resolved "git+ssh://git@github.com:chenzhutian/vega-ar.git#21911ba9f1d1b7a5d4e7a65de30aa7f801600e8a"
+  resolved "git+ssh://git@github.com:chenzhutian/vega-ar.git#6ca3f547bd661156cb350cb7cccd0bbf987374d3"
   dependencies:
     vega "^5.4.0"
 
