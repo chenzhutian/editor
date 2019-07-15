@@ -263,7 +263,7 @@ class Header extends React.PureComponent<Props, State> {
                       }}
                       className="item"
                     >
-                      <div style={{ backgroundImage: `url(images/examples/vg/${spec.name}.vg.png)` }} className="img" />
+                      <div style={{ backgroundImage: `url(images/examples/va/${spec.name}.va.png)` }} className="img" />
                       <div className="name">{formatExampleName(spec.name)}</div>
                     </div>
                   );
