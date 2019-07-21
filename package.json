@@ -53,13 +53,13 @@
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
     "tslib": "^1.10.0",
+    "vega-ar": "git+ssh://git@github.com:chenzhutian/vega-ar.git#65aa9919c17f50ff79de4759f06998fe6545bde1",
     "vega-cli": "5.4.0",
     "vega-datasets": "^1.25.0",
     "vega-lite": "3.3.0",
     "vega-schema-url-parser": "^1.1.0",
     "vega-themes": "^2.3.0",
-    "vega-tooltip": "^0.17.1",
-    "vega-ar": "git+ssh://git@github.com:chenzhutian/vega-ar.git#6ca3f547bd661156cb350cb7cccd0bbf987374d3"
+    "vega-tooltip": "^0.17.1"
   },
   "husky": {
     "hooks": {
@@ -88,7 +88,7 @@
     "format": "tslint -p . --fix && prettier --write 'src/**/*.{ts,tsx,css}'",
     "lint": "tslint -p . && prettier --check 'src/**/*.{ts,tsx,css}'",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "npm run build && cp -r dist/* ../vega-ar-server/public/editor/",
     "analyze": "webpack --mode production --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   }
 }
