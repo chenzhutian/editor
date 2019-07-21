@@ -23,6 +23,7 @@ export interface State {
   manualParse: boolean;
   mode: Mode;
   ar: boolean;
+  arDebug: boolean;
   navItem: string;
   sidePaneItem: string;
   parse: boolean;
@@ -38,6 +39,8 @@ export interface State {
 }
 
 export const DEFAULT_STATE: State = {
+  ar: true,
+  arDebug: false,
   baseURL: null,
   compiledVegaPaneSize: LAYOUT.MinPaneSize,
   compiledVegaSpec: false,
@@ -54,7 +57,6 @@ export const DEFAULT_STATE: State = {
   logs: false,
   manualParse: false,
   mode: Mode.VegaLite,
-  ar: true,
   navItem: NAVBAR.Logs,
   parse: false,
   renderer: 'svg',

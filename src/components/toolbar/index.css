@@ -13,6 +13,7 @@
 }
 
 .ar-toggle,
+.ar-debug-toggle,
 .renderer-toggle {
   background: #777;
   color: white;

@@ -40,6 +40,16 @@ export default class Toolbar extends React.PureComponent<Props> {
         >
           {`AR:${this.props.ar}`}
         </div>
+        {this.props.ar &&
+          <div className="ar-debug-toggle"
+            onClick={() => {
+              const nextDebug = !this.props.arDebug
+              this.props.toggleARDebug(nextDebug)
+            }}
+          >
+            {`AR Debug:${this.props.arDebug}`}
+          </div>
+        }
         <div
           className="renderer-toggle"
           onClick={() => {

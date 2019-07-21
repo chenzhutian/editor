@@ -84,7 +84,7 @@ class Editor extends React.PureComponent<Props, State> {
     }
 
     const view = (await arView(arRuntime, runtime, {
-      debug: true,
+      debug: this.props.arDebug,
       loader,
       logLevel: vega.Warn,
     })).hover();
@@ -143,7 +143,8 @@ class Editor extends React.PureComponent<Props, State> {
       !deepEqual(prevProps.vegaLiteSpec, this.props.vegaLiteSpec) ||
       prevProps.baseURL !== this.props.baseURL ||
       !deepEqual(prevProps.config, this.props.config) ||
-      prevProps.ar !== this.props.ar
+      prevProps.ar !== this.props.ar ||
+      prevProps.arDebug !== this.props.arDebug
     ) {
       await this.initView();
     }

@@ -26,6 +26,7 @@ import {
   SetVegaExample,
   SetVegaLiteExample,
   SHOW_LOGS,
+  TOGGLE_AR_DEBUG,
   TOGGLE_AR_MODE,
   TOGGLE_AUTO_PARSE,
   TOGGLE_COMPILED_VEGA_SPEC,
@@ -258,6 +259,12 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
       return parseVegaLite(state, action, {
         gist: action.gist,
       });
+    }
+    case TOGGLE_AR_DEBUG: {
+      return {
+        ...state,
+        arDebug: action.debug
+      };
     }
     case TOGGLE_AR_MODE: {
       return {
