@@ -22,6 +22,7 @@ export interface State {
   logs: boolean;
   manualParse: boolean;
   mode: Mode;
+  ar: boolean;
   navItem: string;
   sidePaneItem: string;
   parse: boolean;
@@ -53,6 +54,7 @@ export const DEFAULT_STATE: State = {
   logs: false,
   manualParse: false,
   mode: Mode.VegaLite,
+  ar: true,
   navItem: NAVBAR.Logs,
   parse: false,
   renderer: 'svg',

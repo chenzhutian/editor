@@ -19,6 +19,7 @@ export const SET_VEGA_AR_EXAMPLE: 'SET_VEGA_AR_EXAMPLE' = 'SET_VEGA_AR_EXAMPLE';
 export const SET_VEGA_LITE_EXAMPLE: 'SET_VEGA_LITE_EXAMPLE' = 'SET_VEGA_LITE_EXAMPLE';
 export const SET_VIEW: 'SET_VIEW' = 'SET_VIEW';
 export const SHOW_LOGS: 'SHOW_LOGS' = 'SHOW_LOGS';
+export const TOGGLE_AR_MODE: 'TOGGLE_AR_MODE' = 'TOGGLE_AR_MODE';
 export const TOGGLE_AUTO_PARSE: 'TOGGLE_AUTO_PARSE' = 'TOGGLE_AUTO_PARSE';
 export const TOGGLE_COMPILED_VEGA_SPEC: 'TOGGLE_COMPILED_VEGA_SPEC' = 'TOGGLE_COMPILED_VEGA_SPEC';
 export const TOGGLE_DEBUG_PANE: 'TOGGLE_DEBUG_PANE' = 'TOGGLE_DEBUG_PANE';
@@ -45,6 +46,7 @@ export type Action =
   | UpdateVegaLiteSpec
   | SetGistVegaSpec
   | SetGistVegaLiteSpec
+  | ToggleARMode
   | ToggleAutoParse
   | ToggleCompiledVegaSpec
   | ToggleDebugPane
@@ -218,6 +220,14 @@ export function setRenderer(renderer: Renderer) {
   };
 }
 export type SetRenderer = ReturnType<typeof setRenderer>;
+
+export function toggleARMode(ar: boolean) {
+  return {
+    ar,
+    type: TOGGLE_AR_MODE,
+  }
+}
+export type ToggleARMode = ReturnType<typeof toggleARMode>;
 
 export function setBaseUrl(baseURL: string) {
   return {

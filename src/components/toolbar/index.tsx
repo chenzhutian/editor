@@ -6,6 +6,7 @@ import Renderer from './renderer';
 
 export function mapStateToProps(state: State, ownProps) {
   return {
+    ar: state.ar,
     error: state.error,
     mode: state.mode,
     renderer: state.renderer,
@@ -17,6 +18,7 @@ export function mapDispatchToProps(dispatch: Dispatch<EditorActions.Action>) {
   return bindActionCreators(
     {
       setRenderer: EditorActions.setRenderer,
+      toggleARMode: EditorActions.toggleARMode,
       toggleDebugPane: EditorActions.toggleDebugPane,
     },
     dispatch
