@@ -73,37 +73,21 @@ class Editor extends React.PureComponent<Props, State> {
       }
     };
 
-    let runtime
-    let arRuntime
-    if (this.props.mode === Mode.VegaAR) {
-      const tmp = arParse(this.props.vegaARSpec, this.props.config);
-      runtime = tmp.runtime;
-      arRuntime = tmp.arRuntime;
-    } else {
-      const tmp = arParse(this.props.vegaSpec, this.props.config);
-      runtime = tmp.runtime;
-      arRuntime = tmp.arRuntime;
-    }
+    const { runtime, arRuntime } = arParse(this.props.mode === Mode.VegaAR
+      ? this.props.vegaARSpec
+      : this.props.vegaSpec,
+      { ...this.props.config, ar: this.props.ar })
 
     // finalize previous view so that memory can be freed
     if (this.props.view) {
       this.props.view.finalize();
     }
 
-    let view
-    if (this.props.mode === Mode.VegaAR) {
-      view = (await arView(arRuntime, runtime, {
-        arMode: 'debug',
-        loader,
-        logLevel: vega.Warn,
-      })).hover()
-    } else {
-      view = (await arView(arRuntime, runtime, {
-        arMode: 'normal',
-        loader,
-        logLevel: vega.Warn,
-      })).hover()
-    }
+    const view = (await arView(arRuntime, runtime, {
+      debug: true,
+      loader,
+      logLevel: vega.Warn,
+    })).hover();
 
     (window as any).VEGA_DEBUG.view = this.props.view;
 
@@ -129,8 +113,8 @@ class Editor extends React.PureComponent<Props, State> {
       .initialize(chart)
       .runAsync();
   }
-  public componentDidMount() {
-    this.initView();
+  public async componentDidMount() {
+    await this.initView();
     this.renderVega();
     // Add Event Listener to ctrl+f11 key
     document.addEventListener('keydown', e => {
@@ -152,15 +136,16 @@ class Editor extends React.PureComponent<Props, State> {
       this.setState({ fullscreen: true });
     }
   }
-  public componentDidUpdate(prevProps, prevState) {
+  public async componentDidUpdate(prevProps, prevState) {
     if (
       !deepEqual(prevProps.vegaSpec, this.props.vegaSpec) ||
       !deepEqual(prevProps.vegaARSpec, this.props.vegaARSpec) ||
       !deepEqual(prevProps.vegaLiteSpec, this.props.vegaLiteSpec) ||
       prevProps.baseURL !== this.props.baseURL ||
-      !deepEqual(prevProps.config, this.props.config)
+      !deepEqual(prevProps.config, this.props.config) ||
+      prevProps.ar !== this.props.ar
     ) {
-      this.initView();
+      await this.initView();
     }
     this.renderVega();
   }
