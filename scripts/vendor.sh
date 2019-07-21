@@ -35,8 +35,8 @@ popd
 
 eval rsync -r "/tmp/vega-$VEGA_VERSION/docs/examples/*.vg.json" "$SPEC/vega"
 eval rsync -r "/tmp/vega-lite-$VEGA_LITE_VERSION/examples/specs/*.vl.json" "$SPEC/vega-lite/"
-eval rsync -r "$CWD/node_modules/vega-ar/test/spec/vega-ar/*.va.json" "$SPEC/vega-ar"
+eval rsync -r "$CWD/node_modules/vega-ar/spec/*.va.json" "$SPEC/vega-ar"
 
 cp "/tmp/vega-lite-$VEGA_LITE_VERSION/_data/examples.json" "$SPEC/vega-lite/index.json"
 cp "/tmp/vega-$VEGA_VERSION/docs/_data/examples.json" "$SPEC/vega/index.json"
-cp "$CWD/node_modules/vega-ar/test/spec/vega-ar/index.json" "$SPEC/vega-ar/index.json"
+cp "$CWD/node_modules/vega-ar/spec/index.json" "$SPEC/vega-ar/index.json"
