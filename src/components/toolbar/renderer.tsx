@@ -32,14 +32,6 @@ export default class Toolbar extends React.PureComponent<Props> {
       <div className="toolbar">
         {this.showErrorAndWarnings()}
         <div className="status">{`${NAMES[this.props.mode]} version ${getVersion(this.props.mode)}`}</div>
-        <div className="ar-toggle"
-          onClick={() => {
-            const nextMode = !this.props.ar
-            this.props.toggleARMode(nextMode)
-          }}
-        >
-          {`AR:${this.props.ar}`}
-        </div>
         {this.props.ar &&
           <div className="ar-debug-toggle"
             onClick={() => {
@@ -50,6 +42,14 @@ export default class Toolbar extends React.PureComponent<Props> {
             {`AR Debug:${this.props.arDebug}`}
           </div>
         }
+        <div className="ar-toggle"
+          onClick={() => {
+            const nextMode = !this.props.ar
+            this.props.toggleARMode(nextMode)
+          }}
+        >
+          {`AR:${this.props.ar}`}
+        </div>
         <div
           className="renderer-toggle"
           onClick={() => {
