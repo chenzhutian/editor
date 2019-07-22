@@ -1,10 +1,12 @@
+import * as Monaco from 'monaco-editor';
 import * as React from 'react';
 import { Edit3, Maximize } from 'react-feather';
 import { Portal } from 'react-portal';
 import { withRouter } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import * as vega from 'vega';
-import { arParse, arView } from 'vega-ar'
+import { arParse, arView, jsonParse } from 'vega-ar'
+import { ARView, CleanView } from 'vega-ar/src/arView';
 import { deepEqual } from 'vega-lite/build/src/util';
 import vegaTooltip from 'vega-tooltip';
 import { mapDispatchToProps, mapStateToProps } from '.';
@@ -58,6 +60,7 @@ class Editor extends React.PureComponent<Props, State> {
 
   // Initialize the view instance
   public async initView() {
+    console.log('initView')
     const loader = vega.loader();
     const originalLoad = loader.load.bind(loader);
 
@@ -83,7 +86,7 @@ class Editor extends React.PureComponent<Props, State> {
       this.props.view.finalize();
     }
 
-    const view = (await arView(arRuntime, runtime, {
+    const view: ARView | CleanView = (await arView(arRuntime, runtime, {
       debug: this.props.arDebug,
       loader,
       logLevel: vega.Warn,
@@ -95,7 +98,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     this.props.setView(view);
   }
-  public renderVega() {
+  public async renderVega() {
     // Selecting chart for rendering vega
     const chart = this.state.fullscreen ? (this.refs.fchart as any) : (this.refs.chart as any);
     chart.style.width = chart.getBoundingClientRect().width + 'px';
@@ -108,10 +111,32 @@ class Editor extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.props.view
+    console.log('renderVega')
+    await this.props.view
       .renderer(this.props.renderer)
       .initialize(chart)
       .runAsync();
+
+    if (this.props.mode === Mode.VegaAR) {
+      const arview: ARView = this.props.view as ARView
+      const sourceMap = jsonParse(this.props.editorString)
+
+      //       key: {line: 12, column: 6, pos: 291}
+      // keyEnd: {line: 12, column: 12, pos: 297}
+      // value: {line: 12, column: 14, pos: 299}
+      // valueEnd: {line: 12, column: 28, pos: 313}
+      this.props.updateARHints(arview.arHints.map(h => {
+        const { key, keyEnd, value, valueEnd } = sourceMap.pointers[`/data/${h.idx}/name`];
+
+        // { range: new monaco.Range(7, 1, 7, 24), options: { inlineClassName: 'myInlineDecoration' } },
+        return {
+          options: {
+            inlineClassName: 'myInlineDecoration'
+          },
+          range: new Monaco.Range(key.line, key.column, valueEnd.line, valueEnd.column),
+        }
+      }))
+    }
   }
   public async componentDidMount() {
     await this.initView();

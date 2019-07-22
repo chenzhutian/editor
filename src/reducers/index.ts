@@ -32,6 +32,8 @@ import {
   TOGGLE_COMPILED_VEGA_SPEC,
   TOGGLE_DEBUG_PANE,
   TOGGLE_NAV_BAR,
+  UPDATE_AR_HINT_IDS,
+  UPDATE_AR_HINTS,
   UPDATE_EDITOR_STRING,
   UPDATE_VEGA_AR_SPEC,
   UPDATE_VEGA_LITE_SPEC,
@@ -111,6 +113,7 @@ function parseVegaAR(state: State, action: UpdateVegaARSpec | SetVegaARExample, 
   const currLogger = new LocalLogger();
 
   try {
+
     const spec = JSON.parse(action.spec);
 
     validateVegaAR(spec, currLogger);
@@ -241,6 +244,19 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
     }
     case UPDATE_VEGA_AR_SPEC: {
       return parseVegaAR(state, action);
+    }
+    case UPDATE_AR_HINTS: {
+      console.log('update ar hint ', action.hints)
+      return {
+        ...state,
+        arHints: action.hints
+      };
+    }
+    case UPDATE_AR_HINT_IDS: {
+      return {
+        ...state,
+        arHintIds: action.ids
+      };
     }
     case SET_GIST_VEGA_SPEC: {
       return parseVega(state, action, {

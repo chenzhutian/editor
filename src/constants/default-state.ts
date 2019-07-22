@@ -1,5 +1,7 @@
+import { editor } from 'monaco-editor'
 import { Spec } from 'vega';
 import { ARSpec } from 'vega-ar';
+import { ARView } from 'vega-ar/src/arView';
 import { TopLevelSpec as VlSpec } from 'vega-lite';
 import { Config } from 'vega-themes/build/config';
 import { LocalLogger } from '../utils/logger';
@@ -22,8 +24,11 @@ export interface State {
   logs: boolean;
   manualParse: boolean;
   mode: Mode;
+  // ar state
   ar: boolean;
   arDebug: boolean;
+  arHints: editor.IModelDeltaDecoration[];
+  arHintIds: string[];
   navItem: string;
   sidePaneItem: string;
   parse: boolean;
@@ -32,7 +37,7 @@ export interface State {
   vegaLiteSpec: VlSpec;
   vegaSpec: Spec;
   vegaARSpec: ARSpec;
-  view: View;
+  view: View | ARView;
   warningsCount: number;
   warningsLogger: LocalLogger;
   themeName: string;
@@ -41,6 +46,8 @@ export interface State {
 export const DEFAULT_STATE: State = {
   ar: true,
   arDebug: false,
+  arHintIds: [],
+  arHints: [],
   baseURL: null,
   compiledVegaPaneSize: LAYOUT.MinPaneSize,
   compiledVegaSpec: false,

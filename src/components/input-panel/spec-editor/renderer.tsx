@@ -5,6 +5,7 @@ import * as React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import { withRouter } from 'react-router-dom';
 import { debounce } from 'vega';
+import { deepEqual } from 'vega-lite/build/src/util';
 import { mapDispatchToProps, mapStateToProps } from '.';
 import { KEYCODES, Mode } from '../../../constants';
 import addMarkdownProps from '../../../utils/markdownProps';
@@ -12,9 +13,11 @@ import './index.css';
 
 const vegaLiteSchema = require('vega-lite/build/vega-lite-schema.json');
 const vegaSchema = require('vega/build/vega-schema.json');
+const vegaARSchema = require('vega-ar/vega-ar-schema.json');
 
 addMarkdownProps(vegaSchema);
 addMarkdownProps(vegaLiteSchema);
+addMarkdownProps(vegaARSchema)
 
 function parser(url: string) {
   const regex = /\/schema\/([\w-]+)\/([\w\.\-]+)\.json$/g;
@@ -35,6 +38,12 @@ const schemas = {
       uri: 'https://vega.github.io/schema/vega-lite/v3.json',
     },
   ],
+  [Mode.VegaAR]: [
+    {
+      schema: vegaARSchema,
+      uri: 'http://vegaar.hkustvis.org/schema/vega-ar/v5.json',
+    }
+  ]
 };
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & { history: any; match: any };
@@ -70,11 +79,26 @@ class Editor extends React.PureComponent<Props, {}> {
     this.props.history.push('/custom/vega-lite');
   }
 
+  public onSelectNewVegaAR() {
+    this.props.history.push('/custom/vega-AR')
+  }
+
   public onClear() {
-    this.props.mode === Mode.Vega ? this.onSelectNewVega() : this.onSelectNewVegaLite();
+    switch (this.props.mode) {
+      case Mode.Vega:
+        this.onSelectNewVega()
+        break
+      case Mode.VegaLite:
+        this.onSelectNewVegaLite()
+        break
+      case Mode.VegaAR:
+        this.onSelectNewVegaAR()
+        break
+    }
   }
 
   public editorDidMount(editor) {
+    console.log('editorDidMount')
     editor.addAction(
       (() => {
         return {
@@ -89,7 +113,9 @@ class Editor extends React.PureComponent<Props, {}> {
     editor.focus();
   }
   public handleEditorChange(spec) {
-    this.props.manualParse ? this.props.updateEditorString(spec) : this.updateSpec(spec);
+    this.props.manualParse
+      ? this.props.updateEditorString(spec)
+      : this.updateSpec(spec);
 
     if (this.props.history.location.pathname.indexOf('/edited') === -1) {
       this.props.history.push('/edited');
@@ -129,10 +155,21 @@ class Editor extends React.PureComponent<Props, {}> {
     });
   }
   public componentWillReceiveProps(nextProps: Props) {
+    console.log('willReceive', this.props.arHints, nextProps.arHints)
     if (nextProps.parse) {
       this.updateSpec(nextProps.value);
       this.props.setConfig(JSON.parse(nextProps.configEditorString));
       this.props.parseSpec(false);
+    }
+  }
+
+  public componentDidUpdate(prevProps: Props, prevState) {
+    console.log('decoration', prevProps.arHints, this.props.arHints)
+    if (!deepEqual(prevProps.arHints, this.props.arHints)) {
+      console.log('decoration')
+      const newARHintIds = (this.refs.editor as MonacoEditor).editor
+        .deltaDecorations(prevProps.arHintIds, this.props.arHints);
+      this.props.updateARHintIds(newARHintIds)
     }
   }
   public componentDidMount() {
@@ -163,6 +200,7 @@ class Editor extends React.PureComponent<Props, {}> {
     } catch (err) {
       console.warn('Error parsing JSON string', err);
     }
+
     switch (parsedMode) {
       case Mode.Vega:
         this.props.updateVegaSpec(spec);

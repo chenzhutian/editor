@@ -6,6 +6,8 @@ import Renderer from './renderer';
 
 export function mapStateToProps(state: State, ownProps) {
   return {
+    arHintIds: state.arHintIds,
+    arHints: state.arHints,
     configEditorString: state.configEditorString,
     gist: state.gist,
     manualParse: state.manualParse,
@@ -23,6 +25,7 @@ export function mapDispatchToProps(dispatch: Dispatch<EditorActions.Action>) {
       parseSpec: EditorActions.parseSpec,
       setConfig: EditorActions.setConfig,
       setEditorReference: EditorActions.setEditorReference,
+      updateARHintIds: EditorActions.updateARHintIds,
       updateEditorString: EditorActions.updateEditorString,
       updateVegaARSpec: EditorActions.updateVegaARSpec,
       updateVegaLiteSpec: EditorActions.updateVegaLiteSpec,

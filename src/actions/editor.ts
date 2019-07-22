@@ -1,3 +1,5 @@
+import { editor } from 'monaco-editor';
+import { ARView } from 'vega-ar/src/arView';
 import { Config } from 'vega-themes/build/config';
 import { Mode, Renderer, View } from '../constants';
 
@@ -25,6 +27,8 @@ export const TOGGLE_AUTO_PARSE: 'TOGGLE_AUTO_PARSE' = 'TOGGLE_AUTO_PARSE';
 export const TOGGLE_COMPILED_VEGA_SPEC: 'TOGGLE_COMPILED_VEGA_SPEC' = 'TOGGLE_COMPILED_VEGA_SPEC';
 export const TOGGLE_DEBUG_PANE: 'TOGGLE_DEBUG_PANE' = 'TOGGLE_DEBUG_PANE';
 export const TOGGLE_NAV_BAR: 'TOGGLE_NAV_BAR' = 'TOGGLE_NAV_BAR';
+export const UPDATE_AR_HINTS: 'UPDATE_AR_HINT' = 'UPDATE_AR_HINT';
+export const UPDATE_AR_HINT_IDS: 'UPDATE_AR_HINT_IDS' = 'UPDATE_AR_HINT_IDS';
 export const UPDATE_EDITOR_STRING: 'UPDATE_EDITOR_STRING' = 'UPDATE_EDITOR_STRING';
 export const UPDATE_VEGA_LITE_SPEC: 'UPDATE_VEGA_LITE_SPEC' = 'UPDATE_VEGA_LITE_SPEC';
 export const UPDATE_VEGA_SPEC: 'UPDATE_VEGA_SPEC' = 'UPDATE_VEGA_SPEC';
@@ -45,6 +49,8 @@ export type Action =
   | UpdateVegaSpec
   | UpdateVegaARSpec
   | UpdateVegaLiteSpec
+  | UpdateARHint
+  | UpdateARHintIds
   | SetGistVegaSpec
   | SetGistVegaLiteSpec
   | ToggleARMode
@@ -152,6 +158,22 @@ export function updateVegaLiteSpec(spec) {
 }
 export type UpdateVegaLiteSpec = ReturnType<typeof updateVegaLiteSpec>;
 
+export function updateARHint(hints: editor.IModelDeltaDecoration[]) {
+  return {
+    hints,
+    type: UPDATE_AR_HINTS
+  };
+}
+export type UpdateARHint = ReturnType<typeof updateARHint>;
+
+export function updateARHintIds(ids: string[]) {
+  return {
+    ids,
+    type: UPDATE_AR_HINT_IDS
+  };
+}
+export type UpdateARHintIds = ReturnType<typeof updateARHintIds>;
+
 export function setGistVegaSpec(gist: string, spec) {
   return {
     gist,
@@ -247,7 +269,7 @@ export function setBaseUrl(baseURL: string) {
 }
 export type SetBaseUrl = ReturnType<typeof setBaseUrl>;
 
-export function setView(view: View) {
+export function setView(view: View | ARView) {
   return {
     type: SET_VIEW,
     view,
