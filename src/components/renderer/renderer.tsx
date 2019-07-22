@@ -99,6 +99,7 @@ class Editor extends React.PureComponent<Props, State> {
     this.props.setView(view);
   }
   public async renderVega() {
+    console.debug('renderVega')
     // Selecting chart for rendering vega
     const chart = this.state.fullscreen ? (this.refs.fchart as any) : (this.refs.chart as any);
     chart.style.width = chart.getBoundingClientRect().width + 'px';
@@ -111,7 +112,6 @@ class Editor extends React.PureComponent<Props, State> {
       return;
     }
 
-    console.log('renderVega')
     await this.props.view
       .renderer(this.props.renderer)
       .initialize(chart)
@@ -129,7 +129,7 @@ class Editor extends React.PureComponent<Props, State> {
         const { key, keyEnd, value, valueEnd } = sourceMap.pointers[`/data/${h.idx}/name`];
         const decoration: Monaco.editor.IModelDeltaDecoration = {
           options: {
-            hoverMessage: h.type,
+            hoverMessage: { value: h.msg },
             inlineClassName: 'myInlineDecoration'
           },
           range: new Monaco.Range(key.line + 1, key.column + 1, valueEnd.line + 1, valueEnd.column + 1), // the range is 1-based, not 0-based
