@@ -28,5 +28,9 @@
 }
 
 .myInlineDecoration {
-  color: red;
+	color: red !important;
+	cursor: pointer;
+	text-decoration: underline;
+	font-weight: bold;
+	font-style: oblique;
 }

@@ -121,20 +121,21 @@ class Editor extends React.PureComponent<Props, State> {
       const arview: ARView = this.props.view as ARView
       const sourceMap = jsonParse(this.props.editorString)
 
-      //       key: {line: 12, column: 6, pos: 291}
+      // key: {line: 12, column: 6, pos: 291}
       // keyEnd: {line: 12, column: 12, pos: 297}
       // value: {line: 12, column: 14, pos: 299}
       // valueEnd: {line: 12, column: 28, pos: 313}
       this.props.updateARHints(arview.arHints.map(h => {
         const { key, keyEnd, value, valueEnd } = sourceMap.pointers[`/data/${h.idx}/name`];
-
-        // { range: new monaco.Range(7, 1, 7, 24), options: { inlineClassName: 'myInlineDecoration' } },
-        return {
+        const decoration: Monaco.editor.IModelDeltaDecoration = {
           options: {
+            hoverMessage: h.type,
             inlineClassName: 'myInlineDecoration'
           },
-          range: new Monaco.Range(key.line, key.column, valueEnd.line, valueEnd.column),
+          range: new Monaco.Range(key.line + 1, key.column + 1, valueEnd.line + 1, valueEnd.column + 1), // the range is 1-based, not 0-based
         }
+
+        return decoration
       }))
     }
   }

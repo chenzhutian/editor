@@ -1,6 +1,6 @@
 import stringify from 'json-stringify-pretty-compact';
 import LZString from 'lz-string';
-import Monaco from 'monaco-editor';
+import * as Monaco from 'monaco-editor';
 import * as React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import { withRouter } from 'react-router-dom';
@@ -98,7 +98,6 @@ class Editor extends React.PureComponent<Props, {}> {
   }
 
   public editorDidMount(editor) {
-    console.log('editorDidMount')
     editor.addAction(
       (() => {
         return {
@@ -155,18 +154,14 @@ class Editor extends React.PureComponent<Props, {}> {
     });
   }
   public componentWillReceiveProps(nextProps: Props) {
-    console.log('willReceive', this.props.arHints, nextProps.arHints)
     if (nextProps.parse) {
       this.updateSpec(nextProps.value);
       this.props.setConfig(JSON.parse(nextProps.configEditorString));
       this.props.parseSpec(false);
     }
   }
-
   public componentDidUpdate(prevProps: Props, prevState) {
-    console.log('decoration', prevProps.arHints, this.props.arHints)
     if (!deepEqual(prevProps.arHints, this.props.arHints)) {
-      console.log('decoration')
       const newARHintIds = (this.refs.editor as MonacoEditor).editor
         .deltaDecorations(prevProps.arHintIds, this.props.arHints);
       this.props.updateARHintIds(newARHintIds)
@@ -175,6 +170,12 @@ class Editor extends React.PureComponent<Props, {}> {
   public componentDidMount() {
     document.addEventListener('keydown', this.handleKeydown);
     this.props.setEditorReference(this.refs.editor);
+    // set decorations
+    if (this.props.arHintIds.length && this.props.arHints.length) {
+      const newARHintIds = (this.refs.editor as MonacoEditor).editor
+        .deltaDecorations(this.props.arHintIds, this.props.arHints);
+      this.props.updateARHintIds(newARHintIds)
+    }
   }
   public componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeydown);

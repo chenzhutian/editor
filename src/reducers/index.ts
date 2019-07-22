@@ -200,6 +200,8 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
     case SET_MODE:
       return {
         ...state,
+        arHintIds: [],
+        arHints: [],
         baseURL: null,
         compiledVegaSpec: false,
         editorString: '{}',
@@ -246,7 +248,7 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
       return parseVegaAR(state, action);
     }
     case UPDATE_AR_HINTS: {
-      console.log('update ar hint ', action.hints)
+      console.log('update ar hint ', action.hints, 'original', state.arHints)
       return {
         ...state,
         arHints: action.hints
