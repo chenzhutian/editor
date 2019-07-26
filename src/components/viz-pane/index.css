@@ -4,6 +4,9 @@
   background: rgba(243, 240, 240, 0.63);
   padding: 10px;
   overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Pane::-webkit-scrollbar {

@@ -332,6 +332,7 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
         baseURL: action.baseURL,
       };
     case SET_VIEW:
+      (window as any).view = action.view
       return {
         ...state,
         view: action.view,
