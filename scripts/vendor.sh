@@ -26,7 +26,7 @@ fi
 VEGA_VERSION=$(scripts/version.sh vega)
 VEGA_LITE_VERSION=$(scripts/version.sh vega-lite)
 
-pushd /tmp
+pushd $HOME
 wget https://github.com/vega/vega/archive/v$VEGA_VERSION.tar.gz -O vega.tar.gz
 wget https://github.com/vega/vega-lite/archive/v$VEGA_LITE_VERSION.tar.gz -O vl.tar.gz
 tar xzf vega.tar.gz vega-$VEGA_VERSION/docs
