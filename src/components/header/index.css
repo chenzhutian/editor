@@ -145,7 +145,7 @@
 }
 
 .itemGroup {
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .items {
@@ -170,11 +170,17 @@
   background-color: white;
 }
 
+.item img {
+  max-width: 40px;
+  max-height: 40px;
+}
+
 .item .name {
   margin-top: 3px;
   padding-top: 5px;
   border-top: solid 1px #666;
   font-size: 12px;
+  min-height: 30px;
 }
 
 .item:hover {

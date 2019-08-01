@@ -12,3 +12,4 @@ yarn-error.log*
 stats.json
 public/data/
 public/spec/
+public/images/howTo
