@@ -30,7 +30,7 @@ class PublishModal extends React.PureComponent<Props, State> {
   public async publishToServer() {
     var ret = await publish('#qrcode', this.props.arSpec)
     console.log(ret)
-    if (ret && ret.value) {
+    if (ret) {
       this.onPublish()
     }
   }
@@ -45,8 +45,9 @@ class PublishModal extends React.PureComponent<Props, State> {
             <span>Publish</span>
           </button>
           <span className={`copied + ${this.state.published ? ' visible' : ''}`}>Success!</span>
+          <a className={`copied + ${this.state.published ? ' visible' : ''}`} href='#'>Full image</a>
         </div>
-        <canvas id='qrcode'></canvas>
+        <img id='qrcode' height='100px'/>
       </div>
     );
   }
