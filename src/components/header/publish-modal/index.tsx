@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
+import { ARView } from 'vega-ar';
 import { State } from '../../../constants/default-state';
 import Renderer from './renderer';
-import { ARView } from 'vega-ar';
 
 export function mapStateToProps(state: State, ownProps) {
   return {

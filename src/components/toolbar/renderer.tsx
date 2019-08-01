@@ -50,7 +50,7 @@ export default class Toolbar extends React.PureComponent<Props> {
         >
           {`AR:${this.props.ar}`}
         </div>
-        <div
+        {/* <div
           className="renderer-toggle"
           onClick={() => {
             // Cycle renderer
@@ -59,7 +59,7 @@ export default class Toolbar extends React.PureComponent<Props> {
           }}
         >
           {`Renderer: ${this.props.renderer === 'canvas' ? 'Canvas' : 'SVG'}`}
-        </div>
+        </div> */}
       </div>
     );
   }

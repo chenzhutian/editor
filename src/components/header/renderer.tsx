@@ -13,8 +13,8 @@ import ExportModal from './export-modal/index';
 import GistModal from './gist-modal/index';
 import HelpModal from './help-modal/index';
 import './index.css';
-import ShareModal from './share-modal/index';
 import PublishModal from './publish-modal/index';
+import ShareModal from './share-modal/index';
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & { history: any; showExample: boolean };
@@ -120,12 +120,12 @@ class Header extends React.PureComponent<Props, State> {
       case Mode.VegaAR:
         modeOptions = [
           { value: Mode.Vega, label: NAMES[Mode.Vega] },
-          { value: Mode.VegaLite, label: NAMES[Mode.VegaLite] },
+          // { value: Mode.VegaLite, label: NAMES[Mode.VegaLite] },
         ];
         break;
       default:
         modeOptions = [
-          { value: Mode.VegaLite, label: NAMES[Mode.VegaLite] },
+          // { value: Mode.VegaLite, label: NAMES[Mode.VegaLite] },
           { value: Mode.VegaAR, label: NAMES[Mode.VegaAR] },
         ];
         break;
@@ -343,37 +343,37 @@ class Header extends React.PureComponent<Props, State> {
     const publicModal = <PublishModal />;
 
     const publishHeaderItem = this.state.mode === Mode.VegaAR ? <PortalWithState closeOnEsc>
-    {({ openPortal, closePortal, onOpen, portal }) => [
-      <span key="0" onClick={openPortal}>
-        {publishButton}
-      </span>,
-      portal(
-        <div className="modal-background" onClick={closePortal}>
-          <div className="modal modal-top" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <button className="close-button" onClick={closePortal}>
-                <X />
-              </button>
+      {({ openPortal, closePortal, onOpen, portal }) => [
+        <span key="0" onClick={openPortal}>
+          {publishButton}
+        </span>,
+        portal(
+          <div className="modal-background" onClick={closePortal}>
+            <div className="modal modal-top" onClick={e => e.stopPropagation()}>
+              <div className="modal-header">
+                <button className="close-button" onClick={closePortal}>
+                  <X />
+                </button>
+              </div>
+              <div className="modal-body modal-hidden">{publicModal}</div>
+              <div className="modal-footer" />
             </div>
-            <div className="modal-body modal-hidden">{publicModal}</div>
-            <div className="modal-footer" />
           </div>
-        </div>
-      ),
-    ]}
-  </PortalWithState> : '';
+        ),
+      ]}
+    </PortalWithState> : '';
 
     return (
       <div className="header">
         <section className="left-section">
           {modeSwitcher}
-          <span ref="splitButton" className={splitClass}>
+          {/* <span ref="splitButton" className={splitClass}>
             {runButton}
             {autoRunToggle}
-          </span>
+          </span> */}
           {optionsButton}
 
-          <PortalWithState closeOnEsc>
+          {/*<PortalWithState closeOnEsc>
             {({ openPortal, closePortal, isOpen, portal }) => [
               <span key="0" onClick={openPortal}>
                 {exportButton}
@@ -394,7 +394,7 @@ class Header extends React.PureComponent<Props, State> {
             ]}
           </PortalWithState>
 
-          <PortalWithState closeOnEsc>
+           <PortalWithState closeOnEsc>
             {({ openPortal, closePortal, onOpen, portal }) => [
               <span key="0" onClick={openPortal}>
                 {shareButton}
@@ -413,9 +413,9 @@ class Header extends React.PureComponent<Props, State> {
                 </div>
               ),
             ]}
-          </PortalWithState>
+          </PortalWithState> */}
 
-          <PortalWithState closeOnEsc>
+          {/* <PortalWithState closeOnEsc>
             {({ openPortal, closePortal, isOpen, portal }) => [
               <span key="0" onClick={openPortal}>
                 {gistButton}
@@ -434,7 +434,7 @@ class Header extends React.PureComponent<Props, State> {
                 </div>
               ),
             ]}
-          </PortalWithState>
+          </PortalWithState> */}
 
           <PortalWithState
             closeOnEsc
@@ -481,7 +481,7 @@ class Header extends React.PureComponent<Props, State> {
                         >
                           Vega-AR
                         </button>
-                        <button
+                        {/* <button
                           className={this.state.mode === Mode.VegaLite ? 'selected' : ''}
                           onClick={() => {
                             this.setState({ mode: Mode.VegaLite });
@@ -490,7 +490,7 @@ class Header extends React.PureComponent<Props, State> {
                           }}
                         >
                           Vega-Lite
-                        </button>
+                        </button> */}
                       </div>
                       <button className="close-button" onClick={closePortal}>
                         <X />
@@ -510,7 +510,7 @@ class Header extends React.PureComponent<Props, State> {
           {publishHeaderItem}
         </section>
 
-        <section className="right-section">
+        {/* <section className="right-section">
           <PortalWithState closeOnEsc>
             {({ openPortal, closePortal, isOpen, portal }) => {
               if (!this.listnerAttached) {
@@ -537,9 +537,9 @@ class Header extends React.PureComponent<Props, State> {
                 ),
               ];
             }}
-          </PortalWithState>
-        </section>
-      </div>
+          </PortalWithState> 
+        </section>*/}
+      </div >
     );
   }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { mapStateToProps } from '.';
 import { publish } from 'vega-ar';
+import { mapStateToProps } from '.';
 import './index.css';
 
 type Props = ReturnType<typeof mapStateToProps>;
@@ -18,7 +18,7 @@ class PublishModal extends React.PureComponent<Props, State> {
     };
   }
 
-  public onPublish(){
+  public onPublish() {
     this.setState({
       published: true,
     });
@@ -28,11 +28,17 @@ class PublishModal extends React.PureComponent<Props, State> {
    * publish
    */
   public async publishToServer() {
-    var ret = await publish('#qrcode', this.props.arSpec)
-    console.log(ret)
+    const ret = await publish('#qrcode', this.props.arSpec)
     if (ret) {
       this.onPublish()
     }
+  }
+
+  public async openViz() {
+    const url = await this.props.arView.toImageURL('svg');
+    const tab = window.open('about:blank', '_blank');
+    tab.document.write(`<title>Chart</title><img src="${url}" />`);
+    tab.document.close();
   }
 
   public render() {
@@ -44,10 +50,13 @@ class PublishModal extends React.PureComponent<Props, State> {
           <button className="share-button" onClick={() => this.publishToServer()}>
             <span>Publish</span>
           </button>
+          <button className="share-button" onClick={() => this.openViz()}>
+            <span>Open SVG</span>
+          </button>
           <span className={`copied + ${this.state.published ? ' visible' : ''}`}>Success!</span>
-          <a className={`copied + ${this.state.published ? ' visible' : ''}`} href='#'>Full image</a>
+          <a className={`copied + ${this.state.published ? ' visible' : ''}`} href="#">Full image</a>
         </div>
-        <img id='qrcode' height='100px'/>
+        <img id="qrcode" height="100px" />
       </div>
     );
   }

@@ -186,7 +186,7 @@ class Editor extends React.PureComponent<Props, State> {
         <div className="chart">
           <div ref="chart" />
         </div>
-        <Maximize
+        {/* <Maximize
           data-tip="Fullscreen"
           className="fullscreen-open"
           onClick={() => {
@@ -208,7 +208,7 @@ class Editor extends React.PureComponent<Props, State> {
               </button>
             </div>
           </Portal>
-        )}
+        )}*/}
         <ReactTooltip place="left" type="dark" effect="solid" />
       </div>
     );
