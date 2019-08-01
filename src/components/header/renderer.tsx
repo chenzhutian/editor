@@ -14,6 +14,7 @@ import GistModal from './gist-modal/index';
 import HelpModal from './help-modal/index';
 import './index.css';
 import ShareModal from './share-modal/index';
+import PublishModal from './publish-modal/index';
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & { history: any; showExample: boolean };
@@ -167,6 +168,13 @@ class Header extends React.PureComponent<Props, State> {
       <div className="header-button">
         <Share2 className="header-icon" />
         {'Share'}
+      </div>
+    );
+
+    const publishButton = (
+      <div className="header-button">
+        <ExternalLink className="header-icon" />
+        {'Publish'}
       </div>
     );
 
@@ -331,6 +339,28 @@ class Header extends React.PureComponent<Props, State> {
     const exportContent = <ExportModal />;
     const shareContent = <ShareModal />;
     const helpModal = <HelpModal />;
+    const publicModal = <PublishModal />;
+
+    const publishHeaderItem = this.state.mode === Mode.VegaAR ? <PortalWithState closeOnEsc>
+    {({ openPortal, closePortal, onOpen, portal }) => [
+      <span key="0" onClick={openPortal}>
+        {publishButton}
+      </span>,
+      portal(
+        <div className="modal-background" onClick={closePortal}>
+          <div className="modal modal-top" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <button className="close-button" onClick={closePortal}>
+                <X />
+              </button>
+            </div>
+            <div className="modal-body modal-hidden">{publicModal}</div>
+            <div className="modal-footer" />
+          </div>
+        </div>
+      ),
+    ]}
+  </PortalWithState> : '';
 
     return (
       <div className="header">
@@ -475,6 +505,8 @@ class Header extends React.PureComponent<Props, State> {
               ),
             ]}
           </PortalWithState>
+
+          {publishHeaderItem}
         </section>
 
         <section className="right-section">
