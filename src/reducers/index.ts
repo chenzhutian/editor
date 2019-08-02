@@ -1,4 +1,5 @@
 import * as vl from 'vega-lite';
+import { compileVegaARSpec } from 'vega-ar';
 import {
   Action,
   EXPORT_VEGA,
@@ -114,14 +115,19 @@ function parseVegaAR(state: State, action: UpdateVegaARSpec | SetVegaARExample, 
 
   try {
 
-    const spec = JSON.parse(action.spec);
+    const vegaARSpec = JSON.parse(action.spec);
 
-    validateVegaAR(spec, currLogger);
+    validateVegaAR(vegaARSpec, currLogger);
+
+    const vegaSpec = action.spec !== '{}'
+      // ? vl.compile(arSpec, { logger: currLogger }).spec 
+      ? compileVegaARSpec(vegaARSpec).nSpec
+      : {};
 
     extend = {
       ...extend,
-      vegaARSpec: spec,
-      // vegaSpec: spec,
+      vegaARSpec,
+      vegaSpec
     };
   } catch (e) {
     const errorMessage = errorLine(action.spec, e.message);
