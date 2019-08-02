@@ -1405,7 +1405,7 @@ d3-array@1, d3-array@^1.1.1:
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.4.tgz#635ce4d5eea759f6f605863dbcfc30edc737f71f"
   integrity sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
 
-"d3-array@^1.2.0 || 2", d3-array@^2.0.3:
+"d3-array@1.2.0 - 2", d3-array@^2.0.3:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-2.2.0.tgz#a9e966b8f8d78f0888d98db1fb840fc8da8ac5c7"
   integrity sha512-eE0QmSh6xToqM3sxHiJYg/QFdNn52ZEgmFE8A8abU8GsHvsIOolqH8B70/8+VGAKm5MlwaExhqR3DLIjOJMLPA==
@@ -1505,11 +1505,11 @@ d3-request@1.0.6:
     xmlhttprequest "1"
 
 d3-scale@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-3.0.0.tgz#ddede1278ac3ea2bf3666de6ca625e20bed9b6c9"
-  integrity sha512-ktic5HBFlAZj2CN8CCl/p/JyY8bMQluN7+fA6ICE6yyoMOnSQAZ1Bb8/5LcNpNKMBMJge+5Vv4pWJhARYlQYFw==
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-3.0.1.tgz#f7b5e7046ad83b35399639455bf5218a3cc1d1bc"
+  integrity sha512-f+OsXyd0claf6ufjI52zBHyOnm6mmfFvYiGUU8UB2VumZpqCcxds5iWN1rcOACIHgw9MntTFLXmi4LBRmY4DwQ==
   dependencies:
-    d3-array "^1.2.0 || 2"
+    d3-array "1.2.0 - 2"
     d3-format "1"
     d3-interpolate "1"
     d3-time "1"
@@ -6000,9 +6000,9 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-"vega-ar@git+ssh://git@github.com:chenzhutian/vega-ar.git#f3896c5f33f82b64d38f47ca412c0f145edda82d":
+"vega-ar@git+ssh://git@github.com:chenzhutian/vega-ar.git#f5a69d5f7b3cb0cf65cbb32103ce9789d55cb014":
   version "0.0.1"
-  resolved "git+ssh://git@github.com:chenzhutian/vega-ar.git#f3896c5f33f82b64d38f47ca412c0f145edda82d"
+  resolved "git+ssh://git@github.com:chenzhutian/vega-ar.git#f5a69d5f7b3cb0cf65cbb32103ce9789d55cb014"
   dependencies:
     "@types/d3-interpolate" "^1.3.1"
     d3-interpolate "^1.3.2"
@@ -6247,10 +6247,17 @@ vega-transforms@^4.1.0:
     vega-statistics "^1.4.0"
     vega-util "^1.10.0"
 
-vega-typings@0.7.1, vega-typings@^0.7.0:
+vega-typings@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/vega-typings/-/vega-typings-0.7.1.tgz#c4e5f65eeee4fb64b1a2b14dee426d1b26a02a40"
   integrity sha512-YRjmcszidnncThmv3UnectLTw6oN/Wg9crx62JC0bA/NhLl4aWuaWTQvikr87l7cGWfKR3Qh9fQgRRhgJ22CPw==
+  dependencies:
+    vega-util "^1.10.0"
+
+vega-typings@^0.7.0:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/vega-typings/-/vega-typings-0.7.2.tgz#cb02da5bdd0237971ba2bea6d47d1cbdbc45c52a"
+  integrity sha512-BReB2qRERA/Ke+QoxKDQ7fES25A9Q3qKRm1CJxwvpLGhAl4k5cGDORx6yW+J3rFHMzpJlmdRM+kb489EuphxZQ==
   dependencies:
     vega-util "^1.10.0"
 
