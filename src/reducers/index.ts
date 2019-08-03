@@ -94,9 +94,11 @@ function parseVega(state: State, action: SetVegaExample | UpdateVegaSpec | SetGi
     };
   }
   const logger = { ...currLogger };
+  console.log('%c ====>parseVega in reducer! ', 'background: #f39c12; color: #fff');
   return {
     ...state,
 
+    ar: false,
     editorString: action.spec,
     error: null,
     gist: null,
@@ -139,10 +141,11 @@ function parseVegaAR(state: State, action: UpdateVegaARSpec | SetVegaARExample, 
     };
   }
   const logger = { ...currLogger };
-
+  console.log('%c ====>parseVegaAR in reducer! ', 'background: #222; color: #bada55');
   return {
     ...state,
 
+    ar: true,
     editorString: action.spec,
     error: null,
     gist: null,
