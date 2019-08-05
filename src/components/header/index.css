@@ -374,7 +374,7 @@
   display: flex;
   justify-content: flex-end;
   padding-right: 80px;
-  margin-top: 18px;
+  padding-top: 13px;
 }
 
 .constraint-container label:not(:last-child) {

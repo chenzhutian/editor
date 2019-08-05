@@ -91,7 +91,7 @@ class Header extends React.PureComponent<Props, State> {
   public checkDirectionNotAllow(howTo: string) {
 
     if (howTo === undefined) {
-      return false
+      return true
     }
 
     let notAllow = false
@@ -500,7 +500,7 @@ class Header extends React.PureComponent<Props, State> {
               portal(
                 <div className="modal-background" onClick={closePortal}>
                   <div className="modal" onClick={e => e.stopPropagation()}>
-                    <div className="modal-header no-margin" style={{ margin: 'unset' }}>
+                    <div className="modal-header no-margin" style={{ margin: 'unset', height: '30px' }}>
                       <div className="button-groups">
                         <button
                           className={this.state.mode === Mode.Vega ? 'selected' : ''}
@@ -533,8 +533,11 @@ class Header extends React.PureComponent<Props, State> {
                           Vega-Lite
                         </button> */}
                       </div>
+                      <button className="close-button" onClick={closePortal}>
+                        <X />
+                      </button>
                       {
-                        this.props.mode === Mode.VegaAR &&
+                        this.state.mode === Mode.VegaAR &&
                         <div className="constraint-container">
                           {['Left', 'Right', 'Top', 'Down'].map(key =>
                             <label key={key}>
@@ -549,9 +552,7 @@ class Header extends React.PureComponent<Props, State> {
                           )}
                         </div>
                       }
-                      <button className="close-button" onClick={closePortal}>
-                        <X />
-                      </button>
+
                     </div>
                     <div className="modal-body" ref={this.examplePortal}>
                       {/* {this.state.showVega ? vega(closePortal) : vegalite(closePortal)} */}
