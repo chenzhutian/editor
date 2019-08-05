@@ -160,6 +160,21 @@
   max-width: 120px;
   text-align: center;
   line-height: 12px;
+  position: relative;
+}
+
+.item-downlight {
+
+}
+
+.item-downlight::before {
+  content: " ";
+  background: rgba(0,0,0, 0.4);
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
 }
 
 .item .img {
@@ -353,6 +368,84 @@
   height: 22px;
   stroke: #000;
   padding-right: 5px;
+}
+
+.constraint-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 80px;
+  margin-top: 18px;
+}
+
+.constraint-container label:not(:last-child) {
+  margin-right: 18px;
+}
+
+.constraint-container [type="checkbox"]:not(:checked),
+.constraint-container [type="checkbox"]:checked {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.constraint-container [type="checkbox"]:not(:checked)+span:before {
+  width: 0;
+  height: 0;
+  border: 3px solid transparent;
+  left: 6px;
+  top: 10px;
+  transform: rotateZ(37deg);
+  transform-origin: 100% 100%;
+}
+
+.constraint-container [type="checkbox"]:not(:checked)+span:after {
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: 2px solid #5a5a5a;
+  top: 0px;
+  z-index: 0;
+}
+
+.constraint-container [type="checkbox"]+span:before, 
+.constraint-container [type="checkbox"]+span:after {
+  content: '';
+  left: 0;
+  position: absolute;
+  transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
+  z-index: 1;
+}
+
+.constraint-container [type="checkbox"]:checked+span:before {
+  top: 0;
+  left: 1px;
+  width: 8px;
+  height: 13px;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotateZ(37deg);
+  transform-origin: 100% 100%;
+}
+
+.constraint-container [type="checkbox"]:checked+span:after {
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #26a69a;
+  background-color: #26a69a;
+  z-index: 0;
+}
+
+.constraint-container [type="checkbox"]+span {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  font-size: 1rem;
 }
 
 .copy-icon {

@@ -1,7 +1,7 @@
 import stringify from 'json-stringify-pretty-compact';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { ExternalLink, GitHub, Grid, HelpCircle, Play, Share2, Terminal, X } from 'react-feather';
+import { ExternalLink, GitHub, Grid, HelpCircle, Play, Share2, Terminal, X, Key } from 'react-feather';
 import { PortalWithState } from 'react-portal';
 import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
@@ -23,6 +23,10 @@ interface State {
   // showVega: boolean;
   mode: Mode;
   scrollPosition: number;
+  constraintTop: boolean;
+  constraintDown: boolean
+  constraintLeft: boolean
+  constraintRight: boolean
 }
 
 const formatExampleName = (name: string) => {
@@ -32,6 +36,10 @@ const formatExampleName = (name: string) => {
     .join(' ');
 };
 
+function getKey(key: string) {
+  return `constraint${key}` as 'constraintTop' | 'constraintDown' | 'constraintLeft' | 'constraintRight'
+}
+
 class Header extends React.PureComponent<Props, State> {
   private refGistForm: HTMLFormElement;
   private examplePortal = React.createRef<HTMLDivElement>();
@@ -39,6 +47,11 @@ class Header extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
+      constraintDown: true,
+      constraintLeft: true,
+      constraintRight: true,
+      constraintTop: true,
+
       mode: props.mode,
       scrollPosition: 0,
       // showVega: props.mode === Mode.Vega,
@@ -74,6 +87,32 @@ class Header extends React.PureComponent<Props, State> {
         break
     }
   }
+
+  public checkDirectionNotAllow(howTo: string) {
+
+    if (howTo === undefined) {
+      return false
+    }
+
+    let notAllow = false
+    if (!this.state.constraintDown) {
+      notAllow = notAllow || howTo.includes('2')
+    }
+
+    if (!this.state.constraintTop) {
+      notAllow = notAllow || howTo.includes('8')
+    }
+
+    if (!this.state.constraintLeft) {
+      notAllow = notAllow || howTo.includes('4')
+    }
+    if (!this.state.constraintRight) {
+      notAllow = notAllow || howTo.includes('6')
+    }
+
+    return notAllow
+  }
+
 
   public componentWillReceiveProps(nextProps) {
     this.setState({
@@ -262,6 +301,7 @@ class Header extends React.PureComponent<Props, State> {
               <div className="specType">{specType}</div>
               <div className="items" onClick={closePortal}>
                 {specs.map((spec, j) => {
+                  const notAllow = this.checkDirectionNotAllow(spec.howTo)
                   return (
                     <div
                       key={j}
@@ -269,7 +309,7 @@ class Header extends React.PureComponent<Props, State> {
                         this.onSelectVegaAR(spec.name);
                         closePortal();
                       }}
-                      className="item"
+                      className={`item ${notAllow ? 'item-downlight' : ''}`}
                     >
                       <div style={{ backgroundImage: `url(images/examples/va/${spec.name}.va.png)` }} className="img" />
                       <div className="name">{formatExampleName(spec.name)}</div>
@@ -332,7 +372,6 @@ class Header extends React.PureComponent<Props, State> {
           return vegalite(closePortal)
         case Mode.VegaAR:
           return vegaAR(closePortal)
-
       }
     }
 
@@ -342,26 +381,28 @@ class Header extends React.PureComponent<Props, State> {
     const helpModal = <HelpModal />;
     const publicModal = <PublishModal />;
 
-    const publishHeaderItem = this.state.mode === Mode.VegaAR ? <PortalWithState closeOnEsc>
-      {({ openPortal, closePortal, onOpen, portal }) => [
-        <span key="0" onClick={openPortal}>
-          {publishButton}
-        </span>,
-        portal(
-          <div className="modal-background" onClick={closePortal}>
-            <div className="modal modal-top" onClick={e => e.stopPropagation()}>
-              <div className="modal-header">
-                <button className="close-button" onClick={closePortal}>
-                  <X />
-                </button>
+    const publishHeaderItem = this.state.mode === Mode.VegaAR
+      ? <PortalWithState closeOnEsc>
+        {({ openPortal, closePortal, onOpen, portal }) => [
+          <span key="0" onClick={openPortal}>
+            {publishButton}
+          </span>,
+          portal(
+            <div className="modal-background" onClick={closePortal}>
+              <div className="modal modal-top" onClick={e => e.stopPropagation()}>
+                <div className="modal-header">
+                  <button className="close-button" onClick={closePortal}>
+                    <X />
+                  </button>
+                </div>
+                <div className="modal-body modal-hidden">{publicModal}</div>
+                <div className="modal-footer" />
               </div>
-              <div className="modal-body modal-hidden">{publicModal}</div>
-              <div className="modal-footer" />
             </div>
-          </div>
-        ),
-      ]}
-    </PortalWithState> : '';
+          ),
+        ]}
+      </PortalWithState>
+      : '';
 
     return (
       <div className="header">
@@ -459,7 +500,7 @@ class Header extends React.PureComponent<Props, State> {
               portal(
                 <div className="modal-background" onClick={closePortal}>
                   <div className="modal" onClick={e => e.stopPropagation()}>
-                    <div className="modal-header">
+                    <div className="modal-header no-margin" style={{ margin: 'unset' }}>
                       <div className="button-groups">
                         <button
                           className={this.state.mode === Mode.Vega ? 'selected' : ''}
@@ -492,6 +533,22 @@ class Header extends React.PureComponent<Props, State> {
                           Vega-Lite
                         </button> */}
                       </div>
+                      {
+                        this.props.mode === Mode.VegaAR &&
+                        <div className="constraint-container">
+                          {['Left', 'Right', 'Top', 'Down'].map(key =>
+                            <label key={key}>
+                              <input type="checkbox"
+                                name={key.toLowerCase()}
+                                value={key.toLowerCase()}
+                                checked={this.state[getKey(key)]}
+                                onChange={e => this.setState({ [getKey(key)]: !this.state[getKey(key)] } as any)}
+                              />
+                              <span>{key}</span>
+                            </label>
+                          )}
+                        </div>
+                      }
                       <button className="close-button" onClick={closePortal}>
                         <X />
                       </button>

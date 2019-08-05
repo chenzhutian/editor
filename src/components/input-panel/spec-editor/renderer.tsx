@@ -227,6 +227,7 @@ class Editor extends React.PureComponent<Props, {}> {
             automaticLayout: true,
             cursorBlinking: 'smooth',
             folding: true,
+            glyphMargin: this.props.arHintIds.length !== 0,
             lineNumbersMinChars: 4,
             minimap: { enabled: false },
             scrollBeyondLastLine: false,

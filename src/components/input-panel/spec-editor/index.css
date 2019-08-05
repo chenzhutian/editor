@@ -32,3 +32,10 @@
   text-decoration-line: underline;
   text-decoration-color: coral;
 }
+
+.myGlyphMarginClass {
+  display: block;
+  background-image: url('https://img.icons8.com/offices/30/000000/error.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}

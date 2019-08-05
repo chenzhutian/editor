@@ -129,10 +129,15 @@ class Editor extends React.PureComponent<Props, State> {
         const { key, keyEnd, value, valueEnd } = sourceMap.pointers[`/data/${h.idx}/name`];
         const decoration: Monaco.editor.IModelDeltaDecoration = {
           options: {
+            glyphMarginClassName: 'myGlyphMarginClass',
+            glyphMarginHoverMessage: { value: h.msg },
             hoverMessage: { value: h.msg },
-            inlineClassName: 'myInlineDecoration'
+            inlineClassName: 'myInlineDecoration',
           },
-          range: new Monaco.Range(key.line + 1, key.column + 1, valueEnd.line + 1, valueEnd.column + 1), // the range is 1-based, not 0-based
+          range: new Monaco.Range(key.line + 1,
+            key.column + 1,
+            valueEnd.line + 1,
+            valueEnd.column + 1), // the range is 1-based, not 0-based
         }
 
         return decoration
