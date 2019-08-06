@@ -126,7 +126,10 @@ class Editor extends React.PureComponent<Props, State> {
       // value: {line: 12, column: 14, pos: 299}
       // valueEnd: {line: 12, column: 28, pos: 313}
       this.props.updateARHints(arview.arHints.map(h => {
-        const { key, keyEnd, value, valueEnd } = sourceMap.pointers[`/data/${h.idx}/name`];
+        const { key, keyEnd, value, valueEnd } = h.transformIdx !== undefined
+          ? sourceMap.pointers[`/data/${h.idx}/transform/${h.transformIdx}/type`]
+          : sourceMap.pointers[`/data/${h.idx}/name`];
+
         const decoration: Monaco.editor.IModelDeltaDecoration = {
           options: {
             glyphMarginClassName: 'myGlyphMarginClass',

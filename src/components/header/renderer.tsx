@@ -310,6 +310,7 @@ class Header extends React.PureComponent<Props, State> {
                         closePortal();
                       }}
                       className={`item ${notAllow ? 'item-downlight' : ''}`}
+                      title={notAllow ? 'This visualization cannot be extended' : ''}
                     >
                       <div style={{ backgroundImage: `url(images/examples/va/${spec.name}.va.png)` }} className="img" />
                       <div className="name">{formatExampleName(spec.name)}</div>
@@ -408,74 +409,7 @@ class Header extends React.PureComponent<Props, State> {
       <div className="header">
         <section className="left-section">
           {modeSwitcher}
-          {/* <span ref="splitButton" className={splitClass}>
-            {runButton}
-            {autoRunToggle}
-          </span> */}
           {optionsButton}
-
-          {/*<PortalWithState closeOnEsc>
-            {({ openPortal, closePortal, isOpen, portal }) => [
-              <span key="0" onClick={openPortal}>
-                {exportButton}
-              </span>,
-              portal(
-                <div className="modal-background" onClick={closePortal}>
-                  <div className="modal modal-top" onClick={e => e.stopPropagation()}>
-                    <div className="modal-header">
-                      <button className="close-button" onClick={closePortal}>
-                        <X />
-                      </button>
-                    </div>
-                    <div className="modal-body">{exportContent}</div>
-                    <div className="modal-footer" />
-                  </div>
-                </div>
-              ),
-            ]}
-          </PortalWithState>
-
-           <PortalWithState closeOnEsc>
-            {({ openPortal, closePortal, onOpen, portal }) => [
-              <span key="0" onClick={openPortal}>
-                {shareButton}
-              </span>,
-              portal(
-                <div className="modal-background" onClick={closePortal}>
-                  <div className="modal modal-top" onClick={e => e.stopPropagation()}>
-                    <div className="modal-header">
-                      <button className="close-button" onClick={closePortal}>
-                        <X />
-                      </button>
-                    </div>
-                    <div className="modal-body modal-hidden">{shareContent}</div>
-                    <div className="modal-footer" />
-                  </div>
-                </div>
-              ),
-            ]}
-          </PortalWithState> */}
-
-          {/* <PortalWithState closeOnEsc>
-            {({ openPortal, closePortal, isOpen, portal }) => [
-              <span key="0" onClick={openPortal}>
-                {gistButton}
-              </span>,
-              portal(
-                <div className="modal-background" onClick={closePortal}>
-                  <div className="modal modal-top" onClick={e => e.stopPropagation()}>
-                    <div className="modal-header">
-                      <button className="close-button" onClick={closePortal}>
-                        <X />
-                      </button>
-                    </div>
-                    <div className="modal-body">{gist(closePortal)}</div>
-                    <div className="modal-footer" />
-                  </div>
-                </div>
-              ),
-            ]}
-          </PortalWithState> */}
 
           <PortalWithState
             closeOnEsc
@@ -539,6 +473,12 @@ class Header extends React.PureComponent<Props, State> {
                       {
                         this.state.mode === Mode.VegaAR &&
                         <div className="constraint-container">
+                          <label style={{
+                            height: '25px',
+                            lineHeight: '25px'
+                          }}>
+                            Allowed extended directions:
+                          </label>
                           {['Left', 'Right', 'Top', 'Down'].map(key =>
                             <label key={key}>
                               <input type="checkbox"
