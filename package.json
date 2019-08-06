@@ -53,7 +53,7 @@
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
     "tslib": "^1.10.0",
-    "vega-ar": "git+ssh://git@github.com:chenzhutian/vega-ar.git#20840ab1e66cee0f1c1f736b41d83eb3e724bf4b",
+    "vega-ar": "git+ssh://git@github.com:chenzhutian/vega-ar.git#0a128793a830f4670232ee873a9e66e34ce3ba79",
     "vega-cli": "5.4.0",
     "vega-datasets": "^1.25.0",
     "vega-lite": "3.3.0",
