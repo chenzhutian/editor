@@ -88,26 +88,26 @@ class Header extends React.PureComponent<Props, State> {
     }
   }
 
-  public checkDirectionNotAllow(howTo: string) {
+  public checkDirectionNotAllow(howTo: string): boolean | undefined {
 
     if (howTo === undefined) {
-      return true
+      return
     }
 
     let notAllow = false
     if (!this.state.constraintDown) {
-      notAllow = notAllow || howTo.includes('2')
+      notAllow = notAllow || howTo.includes('jup2')
     }
 
     if (!this.state.constraintTop) {
-      notAllow = notAllow || howTo.includes('8')
+      notAllow = notAllow || howTo.includes('jup8')
     }
 
     if (!this.state.constraintLeft) {
-      notAllow = notAllow || howTo.includes('4')
+      notAllow = notAllow || howTo.includes('jup4')
     }
     if (!this.state.constraintRight) {
-      notAllow = notAllow || howTo.includes('6')
+      notAllow = notAllow || howTo.includes('jup6')
     }
 
     return notAllow
@@ -309,8 +309,12 @@ class Header extends React.PureComponent<Props, State> {
                         this.onSelectVegaAR(spec.name);
                         closePortal();
                       }}
-                      className={`item ${notAllow ? 'item-downlight' : ''}`}
-                      title={notAllow ? 'This visualization cannot be extended' : ''}
+                      className={`item ${(notAllow || notAllow === undefined) ? 'item-downlight' : ''}`}
+                      title={notAllow === undefined
+                        ? 'This visualization cannot be extended'
+                        : notAllow
+                          ? 'This visualization will extent to the constrained direction(s)'
+                          : ''}
                     >
                       <div style={{ backgroundImage: `url(images/examples/va/${spec.name}.va.png)` }} className="img" />
                       <div className="name">{formatExampleName(spec.name)}</div>
