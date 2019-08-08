@@ -28,7 +28,7 @@ class PublishModal extends React.PureComponent<Props, State> {
    * publish
    */
   public async publishToServer() {
-    const ret = await publish('#qrcode', this.props.arSpec)
+    const ret = await publish('#qrcode', this.props.arSpec, this.props.arView)
     if (ret) {
       this.onPublish()
     }
