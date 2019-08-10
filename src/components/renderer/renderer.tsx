@@ -76,9 +76,12 @@ class Editor extends React.PureComponent<Props, State> {
       }
     };
 
-    const { runtime, arRuntime } = arParse(this.props.mode === Mode.VegaAR
-      ? this.props.vegaARSpec
-      : this.props.vegaSpec,
+    // const { runtime, arRuntime } = arParse(this.props.mode === Mode.VegaAR
+    //   ? this.props.vegaARSpec
+    //   : this.props.vegaSpec,
+    //   { ...this.props.config, ar: this.props.ar })
+
+    const { runtime, arRuntime } = arParse(this.props.vegaARSpec,
       { ...this.props.config, ar: this.props.ar })
 
     // finalize previous view so that memory can be freed
@@ -87,7 +90,7 @@ class Editor extends React.PureComponent<Props, State> {
     }
 
     const view: ARView | CleanView = (await arView(arRuntime, runtime, {
-      debug: this.props.arDebug,
+      debug: this.props.mode === Mode.VegaAR,
       loader,
       logLevel: vega.Warn,
     })).hover();
@@ -145,6 +148,8 @@ class Editor extends React.PureComponent<Props, State> {
 
         return decoration
       }))
+    } else {
+      this.props.updateARHints([])
     }
   }
   public async componentDidMount() {
@@ -178,7 +183,7 @@ class Editor extends React.PureComponent<Props, State> {
       prevProps.baseURL !== this.props.baseURL ||
       !deepEqual(prevProps.config, this.props.config) ||
       prevProps.ar !== this.props.ar ||
-      prevProps.arDebug !== this.props.arDebug
+      prevProps.mode !== this.props.mode
     ) {
       await this.initView();
     }

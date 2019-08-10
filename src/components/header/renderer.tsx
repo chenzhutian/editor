@@ -386,28 +386,26 @@ class Header extends React.PureComponent<Props, State> {
     const helpModal = <HelpModal />;
     const publicModal = <PublishModal />;
 
-    const publishHeaderItem = this.state.mode === Mode.VegaAR
-      ? <PortalWithState closeOnEsc>
-        {({ openPortal, closePortal, onOpen, portal }) => [
-          <span key="0" onClick={openPortal}>
-            {publishButton}
-          </span>,
-          portal(
-            <div className="modal-background" onClick={closePortal}>
-              <div className="modal modal-top" onClick={e => e.stopPropagation()}>
-                <div className="modal-header">
-                  <button className="close-button" onClick={closePortal}>
-                    <X />
-                  </button>
-                </div>
-                <div className="modal-body modal-hidden">{publicModal}</div>
-                <div className="modal-footer" />
+    const publishHeaderItem = <PortalWithState closeOnEsc>
+      {({ openPortal, closePortal, onOpen, portal }) => [
+        <span key="0" onClick={openPortal}>
+          {publishButton}
+        </span>,
+        portal(
+          <div className="modal-background" onClick={closePortal}>
+            <div className="modal modal-top" onClick={e => e.stopPropagation()}>
+              <div className="modal-header">
+                <button className="close-button" onClick={closePortal}>
+                  <X />
+                </button>
               </div>
+              <div className="modal-body modal-hidden">{publicModal}</div>
+              <div className="modal-footer" />
             </div>
-          ),
-        ]}
-      </PortalWithState>
-      : '';
+          </div>
+        ),
+      ]}
+    </PortalWithState>
 
     return (
       <div className="header">

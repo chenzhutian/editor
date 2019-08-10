@@ -7,7 +7,6 @@ import Renderer from './renderer';
 export function mapStateToProps(state: State, ownProps) {
   return {
     ar: state.ar,
-    arDebug: state.arDebug,
     error: state.error,
     mode: state.mode,
     renderer: state.renderer,

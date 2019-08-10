@@ -112,7 +112,7 @@ function parseVega(state: State, action: SetVegaExample | UpdateVegaSpec | SetGi
   };
 }
 
-function parseVegaAR(state: State, action: UpdateVegaARSpec | SetVegaARExample, extend = {}) {
+function parseVegaAR(state: State, action: UpdateVegaARSpec | UpdateVegaSpec | SetVegaARExample | SetVegaExample, extend = {}) {
   const currLogger = new LocalLogger();
 
   try {
@@ -141,6 +141,13 @@ function parseVegaAR(state: State, action: UpdateVegaARSpec | SetVegaARExample, 
     };
   }
   const logger = { ...currLogger };
+  const mode = action.type === 'SET_VEGA_EXAMPLE'
+    ? Mode.Vega
+    : action.type === 'SET_VEGA_AR_EXAMPLE'
+      ? Mode.VegaAR
+      : state.mode
+
+  console.log('parseVegaAR', 'mode ====>', mode)
   console.log('%c ====>parseVegaAR in reducer! ', 'background: #222; color: #bada55');
   return {
     ...state,
@@ -149,7 +156,7 @@ function parseVegaAR(state: State, action: UpdateVegaARSpec | SetVegaARExample, 
     editorString: action.spec,
     error: null,
     gist: null,
-    mode: Mode.VegaAR,
+    mode,
     selectedExample: null,
     warningsCount: (logger as any).warns.length,
     warningsLogger: currLogger,
@@ -240,19 +247,21 @@ export default (state: State = DEFAULT_STATE, action: Action): State => {
         ...state,
         parse: action.parse,
       };
+    case SET_VEGA_EXAMPLE:
     case SET_VEGA_AR_EXAMPLE: {
       return parseVegaAR(state, action, {
         selectedExample: action.example,
       })
     }
-    case SET_VEGA_EXAMPLE: {
-      return parseVega(state, action, {
-        selectedExample: action.example,
-      });
-    }
-    case UPDATE_VEGA_SPEC: {
-      return parseVega(state, action);
-    }
+    // case SET_VEGA_EXAMPLE: {
+    //   return parseVega(state, action, {
+    //     selectedExample: action.example,
+    //   });
+    // }
+    case UPDATE_VEGA_SPEC:
+    // {
+    //   return parseVega(state, action);
+    // }
     case UPDATE_VEGA_AR_SPEC: {
       return parseVegaAR(state, action);
     }

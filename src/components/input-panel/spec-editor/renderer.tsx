@@ -181,36 +181,36 @@ class Editor extends React.PureComponent<Props, {}> {
     document.removeEventListener('keydown', this.handleKeydown);
   }
   public updateSpec(spec: string) {
-    let parsedMode = this.props.mode;
+    const parsedMode = this.props.mode;
 
-    try {
-      const schema = JSON.parse(spec).$schema;
-      if (schema) {
-        switch (parser(schema).library) {
-          case 'vega-lite':
-            parsedMode = Mode.VegaLite;
-            break;
-          case 'vega':
-            parsedMode = Mode.Vega;
-            break;
-          case 'vega-ar':
-            parsedMode = Mode.VegaAR;
-            break;
-        }
-      }
-    } catch (err) {
-      console.warn('Error parsing JSON string', err);
-    }
+    // try {
+    //   const schema = JSON.parse(spec).$schema;
+    //   if (schema) {
+    //     switch (parser(schema).library) {
+    //       case 'vega-lite':
+    //         parsedMode = Mode.VegaLite;
+    //         break;
+    //       case 'vega':
+    //         parsedMode = Mode.Vega;
+    //         break;
+    //       case 'vega-ar':
+    //         parsedMode = Mode.VegaAR;
+    //         break;
+    //     }
+    //   }
+    // } catch (err) {
+    //   console.warn('Error parsing JSON string', err);
+    // }
 
     switch (parsedMode) {
       case Mode.Vega:
-        this.props.updateVegaSpec(spec);
+      // this.props.updateVegaSpec(spec);
+      // break;
+      case Mode.VegaAR:
+        this.props.updateVegaARSpec(spec);
         break;
       case Mode.VegaLite:
         this.props.updateVegaLiteSpec(spec);
-        break;
-      case Mode.VegaAR:
-        this.props.updateVegaARSpec(spec);
         break;
       default:
         console.exception(`Unknown mode:  ${parsedMode}`);

@@ -39,7 +39,7 @@ fi
 eval rsync -r "$CWD/node_modules/vega-ar/spec/*.va.json" "$SPEC/vega-ar"
 eval rsync -r "$CWD/node_modules/vega-ar/spec/*.va.json" "$SPEC/vega"
 rename -f 's/\.va\./.vg./' $SPEC/vega/*
-sed -i 's/http:\/\/vegaar.hkustvis.org\/schema\/vega-ar\/v5.json/https:\/\/vega.github.io\/schema\/vega\/v5.json/' $SPEC/vega/*
+# sed -i 's/http:\/\/vegaar.hkustvis.org\/schema\/vega-ar\/v5.json/https:\/\/vega.github.io\/schema\/vega\/v5.json/' $SPEC/vega/*
 
 eval rsync -r "$CWD/node_modules/vega-ar/images/*.png" "$HOWTO"
 
