@@ -8,13 +8,15 @@ type Props = ReturnType<typeof mapStateToProps>;
 
 interface State {
   published: boolean
+  pngString: string
 }
 
 class PublishModal extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      published: false
+      published: false,
+      pngString: ''
     };
   }
 
@@ -30,6 +32,9 @@ class PublishModal extends React.PureComponent<Props, State> {
   public async publishToServer() {
     const ret = await publish('#qrcode', this.props.arSpec)
     if (ret) {
+      this.setState({
+        pngString: ret.image
+      })
       this.onPublish()
     }
   }
@@ -38,6 +43,13 @@ class PublishModal extends React.PureComponent<Props, State> {
     const url = await this.props.arView.toImageURL('svg');
     const tab = window.open('about:blank', '_blank');
     tab.document.write(`<title>Chart</title><img src="${url}" />`);
+    tab.document.close();
+  }
+
+  public async openPng() {
+    const dataString = this.state.pngString;
+    const tab = window.open('about:blank', '_blank');
+    tab.document.write(`<title>Chart</title><img src="${dataString}" />`);
     tab.document.close();
   }
 
@@ -50,11 +62,13 @@ class PublishModal extends React.PureComponent<Props, State> {
           <button className="share-button" onClick={() => this.publishToServer()}>
             <span>Publish</span>
           </button>
-          <button className="share-button" onClick={() => this.openViz()}>
+          {/* <button className="share-button" onClick={() => this.openViz()}>
             <span>Open SVG</span>
-          </button>
+          </button> */}
           <span className={`copied + ${this.state.published ? ' visible' : ''}`}>Success!</span>
-          <a className={`copied + ${this.state.published ? ' visible' : ''}`} href="#">Full image</a>
+          <button className={`share-button + copied + ${this.state.published ? ' visible' : ''}`} onClick={() => this.openPng()}>
+            <span>Full image</span>
+            </button>
         </div>
         <img id="qrcode" height="100px" />
       </div>
