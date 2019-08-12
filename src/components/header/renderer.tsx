@@ -410,7 +410,7 @@ class Header extends React.PureComponent<Props, State> {
     return (
       <div className="header">
         <section className="left-section">
-          {modeSwitcher}
+          {/* {modeSwitcher} */}
           {optionsButton}
 
           <PortalWithState
