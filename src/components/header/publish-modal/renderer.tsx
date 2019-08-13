@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { publish } from 'vega-ar';
 import { mapStateToProps } from '.';
 import './index.css';
+import { Mode } from '../../../constants';
 
 type Props = ReturnType<typeof mapStateToProps>;
 
@@ -20,12 +21,6 @@ class PublishModal extends React.PureComponent<Props, State> {
     };
   }
 
-  public onPublish() {
-    this.setState({
-      published: true,
-    });
-  }
-
   /**
    * publish
    */
@@ -33,9 +28,9 @@ class PublishModal extends React.PureComponent<Props, State> {
     const ret = await publish('#qrcode', this.props.arSpec, this.props.arView)
     if (ret) {
       this.setState({
-        pngString: ret.image
+        pngString: ret.image,
+        published: true,
       })
-      this.onPublish()
     }
   }
 
@@ -54,11 +49,15 @@ class PublishModal extends React.PureComponent<Props, State> {
   }
 
   public render() {
+    console.log(this.props.arHints)
     return (
       <div className="share-content">
         <h2>Publish</h2>
         <p>Publish the AR Vega to server and it can be viewed by AR viewer.</p>
         <div className="share-buttons">
+          {this.props.mode === Mode.VegaAR && this.props.arHints.length
+            && <span style={{ color: 'red' }}>You have {this.props.arHints.length} warnings! Before publishing, please check your editor for more details.</span>
+          }
           <button className="share-button" onClick={() => this.publishToServer()}>
             <span>Publish</span>
           </button>
@@ -72,7 +71,7 @@ class PublishModal extends React.PureComponent<Props, State> {
           </button>
         </div>
         <img id="qrcode" height="100px" />
-      </div>
+      </div >
     );
   }
 }

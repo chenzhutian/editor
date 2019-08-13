@@ -5,8 +5,10 @@ import Renderer from './renderer';
 
 export function mapStateToProps(state: State, ownProps) {
   return {
+    arHints: state.arHints,
     arSpec: state.vegaARSpec,
-    arView: state.view as ARView
+    arView: state.view as ARView,
+    mode: state.mode
   };
 }
 
