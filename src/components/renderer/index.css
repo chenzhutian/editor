@@ -8,11 +8,11 @@
 }
 
 .chart > div:first-child {
-  border: 2px solid rgb(238, 146, 84);
+  border: 2px solid rgb(65, 113, 156);
 }
 
 .chart > div:nth-child(2) {
-  border: 2px solid rgb(65, 113, 156);
+  border: 2px solid  rgb(238, 146, 84);
 }
 
 .chart .vega-bindings {
